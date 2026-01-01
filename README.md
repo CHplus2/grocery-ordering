@@ -1,89 +1,39 @@
-# Django + Vue Contacts App
+# TokenFresh
 
-A full-stack web application with a **Django REST API backend** (MySQL database)
-and a **Vue 3 frontend**.
-Originally built with a plain HTML/JS frontend, now upgraded to Vue.
+A full-stack eCommerce web application that allows users to browse groceries, place orders, and manage their account. Admins can handle inventory, track orders, and generate reports — all in one system.
 
 ## Features
 
-### Backend (Django)
+### User Functions
 
-* Django REST Framework API for creating, listing, and deleting contacts
-* MySQL database integration
-* Fully functional CRUD operations
+* **Registration & Login** – Users must register and login to access the platform.
+* **Browse Products** – Search for groceries by category or product name.
+* **View Product Details** – See product information, pricing, and availability.
+* **Add to Cart** – Add items to a shopping cart and proceed to checkout.
+* **Place Order** – Complete orders by providing shipping and payment details.
 
-### Frontend (Vue)
+### Admin Functions
 
-* Modern Vue 3 UI for submitting and viewing contacts
-* Axios for API calls
-* Automatically updates the list when new contacts are added
-* Uses `v-model` for two-way data binding and `onMounted` for fetching initial data
+* **Manage Inventory** – Add, update, or remove products, including pricing and stock levels.
+* **Manage Orders** – View incoming orders and track their status.
+* **Generate Reports** – Generate product sales reports to analyze performance.
+* **Manage Customers** – Track customer orders and manage user accounts.
 
 ## Tech Stack
 
-* **Backend:** Python 3.x, Django 4.x, Django REST Framework, MySQL
-* **Frontend:** Vue 3, Vite, Axios
+* **Frontend:** React, CSS (custom design)
+* **Backend:** Django + Django REST Framework
+* **Database:** SQLite
+* **Authentication:** Session-based authentication
 
-## Getting Started
+## About
 
-### 1. Clone Repository
+This project was created to practice building a full-stack eCommerce system with React frontend and Django REST API backend. It demonstrates CRUD operations, user authentication, admin functionality, and responsive UI design.
 
-```bash
-git clone https://github.com/chplus2/django-vue-contacts.git
-cd django-vue-contacts
-```
+## Repository Structure
 
-### 2. Backend Setup
-
-```bash
-python -m venv venv
-# Windows PowerShell
-.\venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
-
-pip install -r requirements.txt
-```
-
-Edit `myproject/settings.py` to match your MySQL credentials.
-
-Run migrations and start the server:
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
-```
-
-Backend runs at **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**.
-
-### 3. Frontend Setup
-
-From the project root:
-
-```bash
-cd vue-contacts
-npm install
-npm run dev
-```
-
-Frontend runs at **[http://localhost:5173/](http://localhost:5173/)** and proxies API calls to the Django server.
+* `frontend/` → React source code
+* `backend/` → Django REST API source code
 
 
-## API Endpoints
-
-* `GET /api/contacts/` – list all contacts
-* `POST /api/contacts/` – create a new contact
-* `DELETE /api/contacts/<id>/` – delete a contact
-
-## What I Learned
-
-* Integrating Django REST Framework with MySQL
-* Building a Vue 3 app that consumes a REST API
-* Using `ref`, `reactive`, and `v-model` for state management
-* CRUD operations and handling CORS
-
-## Notes
-
-* CSRF protection is disabled in the API for simplicity—**do not use this setup in production**.
-* The original plain-HTML frontend remains in the repo for reference but is replaced by Vue.
+Do you want me to do that next?
