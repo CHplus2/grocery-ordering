@@ -32,5 +32,7 @@ This project was created to practice building a full-stack eCommerce system with
 
 ## Repository Structure
 
-* `react-grocery/` → React source code
-* `myapp/` → Django REST API source code
+```
+react-dramas/   # React frontend
+myapp/          # Django REST API backend
+```
