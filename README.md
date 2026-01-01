@@ -26,11 +26,7 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 * **Database:** SQLite
 * **Authentication:** Session-based authentication
 
-## About
-
-This project was created to practice building a full-stack eCommerce system with React frontend and Django REST API backend. It demonstrates CRUD operations, user authentication, admin functionality, and responsive UI design.
-
-## Repository Structure
+## Project Structure
 
 ```
 react-dramas/   # React frontend
