@@ -34,6 +34,3 @@ This project was created to practice building a full-stack eCommerce system with
 
 * `react-grocery/` → React source code
 * `myapp/` → Django REST API source code
-
-
-Do you want me to do that next?
