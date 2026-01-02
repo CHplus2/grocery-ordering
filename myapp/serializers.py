@@ -1,20 +1,70 @@
 from rest_framework import serializers
-from .models import Drama, Favorite
+from django.contrib.auth.models import User
+from .models import (
+    Category, Product, CartItem, Order, OrderItem, Address
+)
 
-class DramaSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Drama
-        fields = ['id', 'title', 'description', 'genre', 'poster_url', 
-                  'release_date', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'created_at', 'updated_at']
-        
-class FavoriteSerializer(serializers.ModelSerializer):
-    drama = DramaSerializer(read_only=True)
-    drama_id = serializers.PrimaryKeyRelatedField(
-        queryset=Drama.objects.all(), source="drama", write_only=True
+        model = Category
+        fields = "__all__"
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source="category.name", read_only=True)
+    
+    class Meta:
+        model = Product
+        fields = "__all__"
+        read_only_fields = ["id", "created_at", "updated_at"]
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(),
+        source="product",
+        write_only=True
     )
 
     class Meta:
-        model = Favorite
-        fields = ['id', 'drama', 'drama_id', 'added_at']
-        read_only_fields = ['id', 'added_at']
+        model = CartItem
+        fields = ["id", "product", "product_id", "quantity", "added_at"]
+        read_only_fields = ["id", "added_at"]
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = "__all__"
+        read_only_fields = ["id", "user"]
+
+    def create(self, validated_data):
+        validated_data["user"] = self.context["request"].user
+        return super().create(validated_data)
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    address = AddressSerializer(read_only=True)
+    items = OrderItemSerializer(many=True, read_only=True)
+    user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+    def get_user(self, obj):
+        return {"id": obj.user.id, "username": obj.user.username}
+    
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "is_staff", "is_active"]
+        read_only_fields = ["id", "username"]

@@ -1,0 +1,133 @@
+.checkout-container {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0b0b0b;
+  color: #c0f9c0;
+  min-height: 100vh;
+}
+
+.checkout-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #39ff14; /* neon green header */
+}
+
+.checkout-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+.checkout-cart-section,
+.checkout-form-section {
+  flex: 1 1 45%;
+  background-color: #121212;
+  border: 1px solid #0ff67f;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 300px;
+}
+
+.checkout-cart-section h2,
+.checkout-form-section h2 {
+  margin-bottom: 15px;
+  color: #39ff14;
+}
+
+.checkout-cart {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkout-cart-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  background-color: #0d0d0d;
+  border: 1px solid #0ff67f;
+  border-radius: 8px;
+  padding: 10px;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.checkout-cart-item:hover {
+  box-shadow: 0 0 10px #0ff67f;
+}
+
+.checkout-item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.checkout-item-info {
+  flex: 1;
+}
+
+.checkout-item-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #c0f9c0;
+}
+
+.checkout-item-qty,
+.checkout-item-price {
+  margin: 2px 0;
+  color: #b0f9b0;
+}
+
+.checkout-total {
+  text-align: right;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #39ff14;
+}
+
+/* Form styles */
+.checkout-form input,
+.checkout-form select {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #0ff67f;
+  background-color: #0b0b0b;
+  color: #c0f9c0;
+  font-size: 14px;
+  outline: none;
+}
+
+.checkout-form input::placeholder,
+.checkout-form select {
+  color: #7efc7e;
+}
+
+.checkout-form input:focus,
+.checkout-form select:focus {
+  border-color: #39ff14;
+  box-shadow: 0 0 5px #39ff14;
+}
+
+.place-order-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  background-color: #0ff67f;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.place-order-btn:hover {
+  background-color: #39ff14;
+  box-shadow: 0 0 10px #39ff14;
+}

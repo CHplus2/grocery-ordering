@@ -1,0 +1,169 @@
+/* -------------------------------------
+   CONTAINER
+--------------------------------------*/
+.cart-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 18px;
+  border: 1px solid #d1fae5; /* mint border */
+  box-shadow: 0 6px 18px rgba(0, 200, 150, 0.13); /* soft crypto glow */
+}
+
+
+/* -------------------------------------
+   TITLE
+--------------------------------------*/
+.cart-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #047857; /* deep fresh green */
+  margin-bottom: 22px;
+}
+
+
+/* -------------------------------------
+   CART ITEM ROW
+--------------------------------------*/
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #e2f7ee; /* soft mint line */
+}
+
+.cart-item-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #134e4a; /* deep teal */
+}
+
+.cart-item-price {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+
+/* -------------------------------------
+   CART IMAGE (NON-INTRUSIVE)
+--------------------------------------*/
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 14px;
+}
+
+/* -------------------------------------
+   QUANTITY CONTROLS
+--------------------------------------*/
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #10b981; /* mint green border */
+  background: white;
+  color: #10b981;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: background 0.22s ease, transform 0.15s ease, box-shadow 0.25s ease;
+}
+
+.qty-btn:hover {
+  background: #d1fae5; /* mint hover */
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25);
+}
+
+.qty-btn:active {
+  transform: translateY(0);
+}
+
+.qty-number {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+
+/* -------------------------------------
+   REMOVE BUTTON - PRO LOOK
+--------------------------------------*/
+.remove-btn {
+  padding: 6px 12px;
+  background: #ef4444; /* fresh red */
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+}
+
+.remove-btn:hover {
+  background: #dc2626; /* darker red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(220, 38, 38, 0.25);
+}
+
+.remove-btn:active {
+  background: #b91c1c;
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+
+/* -------------------------------------
+   TOTAL SECTION
+--------------------------------------*/
+.cart-total {
+  margin-top: 26px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: right;
+  color: #065f46; /* darker mint-green */
+}
+
+
+/* -------------------------------------
+   CHECKOUT BUTTON
+--------------------------------------*/
+.checkout-btn {
+  margin-top: 22px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #34d399, #10b981); /* mint gradient */
+  color: white;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+
+  transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.22);
+}
+
+.checkout-btn:hover {
+  background: linear-gradient(135deg, #10b981, #059669);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.28);
+}
+
+.checkout-btn:active {
+  background: #047857;
+  transform: translateY(0);
+}
+

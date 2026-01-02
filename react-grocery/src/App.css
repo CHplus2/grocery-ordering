@@ -1,0 +1,116 @@
+/* ========= NAVBAR ========= */
+nav {
+  background: linear-gradient(135deg, #00c896, #06b6d4);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 150, 110, 0.2);
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem; /* bigger than nav links */
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 32px; /* spacing from other links */
+  transition: transform 0.2s, color 0.2s;
+}
+
+.brand:hover {
+  color: #e0f7f4;
+  transform: scale(1.05);
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 18px; /* slightly more spacing for readability */
+  transition: opacity 0.25s;
+}
+
+nav a:hover {
+  opacity: 0.75;
+}
+
+/* ========= LOGIN BUTTON ========= */
+.login-btn {
+  background: white;
+  color: #00a884;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 150, 110, 0.15);
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+}
+
+.login-btn:hover {
+  background: #e9fff7;
+  box-shadow: 0 3px 8px rgba(0, 190, 150, 0.2);
+}
+
+.login-btn:active {
+  transform: scale(0.96);
+}
+
+/* ========= USER DROPDOWN ========= */
+.user-dropdown {
+  position: relative;
+}
+
+.user-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.user-icon:hover {
+  opacity: 0.8;
+}
+
+.dropdown-content {
+  position: absolute;
+  right: 0;
+  top: 42px;
+  background: white;
+  width: 160px;
+  padding: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 80, 60, 0.15);
+  animation: fadeIn 0.25s ease-out;
+  z-index: 100;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: white;
+  color: #ff4d4d;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s;
+}
+
+.logout-btn:hover {
+  background: #ffeaea;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

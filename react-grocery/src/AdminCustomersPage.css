@@ -1,0 +1,95 @@
+/* ===========================
+   Admin Customers Page
+   =========================== */
+.admin-customers-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #e6fff4; /* soft mint background */
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 150, 110, 0.1);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Page title */
+.admin-customers-container h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #1f2a2e; /* dark charcoal */
+  font-weight: 700;
+}
+
+/* Table styling */
+.admin-customers-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-customers-container thead {
+  background: linear-gradient(135deg, #00c896, #06b6d4);
+  color: white;
+}
+
+.admin-customers-container th,
+.admin-customers-container td {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e6f7f0;
+}
+
+.admin-customers-container th {
+  font-weight: 600;
+}
+
+.admin-customers-container tbody tr:hover {
+  background: #f0fff7; /* soft mint hover */
+}
+
+.admin-customers-container td {
+  color: #1f2a2e;
+}
+
+/* Action buttons */
+.admin-customers-container button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+/* Activate / Deactivate buttons */
+.admin-customers-container button:hover {
+  opacity: 0.85;
+}
+
+.admin-customers-container button:contains('Activate') {
+  background: #28a745;
+  color: white;
+}
+
+.admin-customers-container button:contains('Deactivate') {
+  background: #dc3545;
+  color: white;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .admin-customers-container th,
+  .admin-customers-container td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  .admin-customers-container button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

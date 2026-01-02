@@ -1,0 +1,156 @@
+.admin-orders-container {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0b0b0b;
+  color: #c0f9c0;
+  min-height: 100vh;
+}
+
+.admin-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #39ff14;
+}
+
+.admin-order-card {
+  background-color: #121212;
+  border: 1px solid #0ff67f;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.2s;
+}
+
+.admin-order-card:hover {
+  box-shadow: 0 0 10px #0ff67f;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.order-status {
+  font-weight: bold;
+  color: #39ff14;
+}
+
+.order-user,
+.order-item-list,
+.order-item-list li {
+  margin: 5px 0;
+}
+
+.order-item-list li {
+  padding-left: 15px;
+  list-style-type: disc;
+}
+
+.edit-btn {
+  background-color: #0ff67f;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+
+.edit-btn:hover {
+  background-color: #39ff14;
+  box-shadow: 0 0 8px #39ff14;
+}
+
+/* Modal Styles */
+.edit-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #121212;
+  border: 1px solid #0ff67f;
+  border-radius: 12px;
+  padding: 30px;
+  z-index: 9999;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 15px #0ff67f;
+}
+
+.edit-modal h2 {
+  margin-top: 0;
+  color: #39ff14;
+  margin-bottom: 15px;
+}
+
+.modal-address-block {
+  background-color: #0d0d0d;
+  border: 1px solid #0ff67f;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.edit-modal label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: #c0f9c0;
+}
+
+.edit-modal select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #0ff67f;
+  background-color: #0b0b0b;
+  color: #c0f9c0;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.edit-modal select:focus {
+  border-color: #39ff14;
+  box-shadow: 0 0 5px #39ff14;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-save,
+.modal-cancel {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-save {
+  background-color: #0ff67f;
+  color: #000;
+}
+
+.modal-save:hover {
+  background-color: #39ff14;
+  box-shadow: 0 0 8px #39ff14;
+}
+
+.modal-cancel {
+  background-color: #ff4f4f;
+  color: #fff;
+}
+
+.modal-cancel:hover {
+  background-color: #ff1a1a;
+  box-shadow: 0 0 8px #ff1a1a;
+}

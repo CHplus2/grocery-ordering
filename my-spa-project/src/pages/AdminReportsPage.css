@@ -1,0 +1,147 @@
+.admin-products-container {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0b0b0b;
+  color: #c0f9c0;
+  min-height: 100vh;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-header h1 {
+  color: #39ff14;
+}
+
+.admin-header button {
+  background-color: #0ff67f;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-header button:hover {
+  background-color: #39ff14;
+  box-shadow: 0 0 6px #39ff14;
+}
+
+.admin-browse-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.admin-browse-controls input,
+.admin-browse-controls select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #0ff67f;
+  background-color: #121212;
+  color: #c0f9c0;
+}
+
+.admin-product-card {
+  display: flex;
+  background-color: #121212;
+  border: 1px solid #0ff67f;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+
+.admin-product-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.admin-card-right h3 {
+  margin: 0 0 8px 0;
+  color: #39ff14;
+}
+
+.admin-card-right p {
+  margin: 4px 0;
+}
+
+.admin-btn-row {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.admin-btn-row button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.admin-btn-row button:hover {
+  box-shadow: 0 0 5px #39ff14;
+}
+
+.admin-btn-row .danger {
+  background-color: #ff3c3c;
+  color: #fff;
+}
+
+.admin-btn-row .danger:hover {
+  background-color: #ff0000;
+  box-shadow: 0 0 5px #ff0000;
+}
+
+/* Modal styling */
+.edit-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #121212;
+  border: 1px solid #0ff67f;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  z-index: 1000;
+  color: #c0f9c0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-modal input,
+.edit-modal textarea,
+.edit-modal select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #0ff67f;
+  background-color: #0b0b0b;
+  color: #c0f9c0;
+}
+
+.edit-modal button {
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  background-color: #0ff67f;
+  color: #000;
+}
+
+.edit-modal button:hover {
+  background-color: #39ff14;
+  box-shadow: 0 0 5px #39ff14;
+}

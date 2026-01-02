@@ -1,0 +1,125 @@
+/* ===========================
+   Modal Overlay (Mint Crypto Theme)
+   =========================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 80, 60, 0.45); /* mint-tinted darkness */
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* ===========================
+   Modal Container
+   =========================== */
+.modal-content {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 380px;
+    box-shadow: 0 8px 25px rgba(0, 160, 120, 0.25);
+    position: relative;
+    color: #0f2a24;
+    border: 1px solid rgba(0, 200, 150, 0.25); /* mint glow border */
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    color: #06615a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.close-btn:hover {
+    color: #00c896; /* mint accent */
+}
+
+/* Title */
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #00c896; /* mint accent */
+    text-align: center;
+    font-weight: 700;
+}
+
+/* ===========================
+   Login Form
+   =========================== */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.login-form input {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #b7e9dd;
+    background: #f0fffb;
+    color: #1f2a2e;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-form input:focus {
+    border-color: #06b6d4; /* crypto aqua */
+    box-shadow: 0 0 6px rgba(0, 180, 210, 0.4);
+    outline: none;
+}
+
+/* Login button */
+.login-form button {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00c896, #06b6d4);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.25s ease, transform 0.15s ease;
+    box-shadow: 0 4px 12px rgba(0, 180, 150, 0.35);
+}
+.login-form button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Errors */
+.error {
+    color: #d62828;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Sign up text */
+.modal-content p {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #0f3d37;
+}
+
+/* Link */
+.switch-link {
+    color: #06b6d4;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.switch-link:hover {
+    color: #00c896;
+}

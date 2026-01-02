@@ -1,0 +1,28 @@
+/* src/pages/AdminProductsPage.css */
+
+/* Example styles */
+.admin-products-container {
+  padding: 1rem;
+}
+
+.admin-product-card {
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  display: flex;
+}
+
+.admin-card-left img {
+  max-width: 100px;
+  margin-right: 1rem;
+}
+
+.admin-btn-row button {
+  margin-right: 0.5rem;
+}
+
+.admin-product-image {
+  max-width: 150px;   /* or any desired size */
+  max-height: 150px;
+  object-fit: cover;  /* crop instead of stretching */
+}

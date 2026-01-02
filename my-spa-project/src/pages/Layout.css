@@ -1,0 +1,73 @@
+/* App Base */
+.app-container {
+  background-color: #0a0a0a;
+  color: #00ff7f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #111;
+  border-bottom: 1px solid #00ff7f;
+  box-shadow: 0 0 10px #00ff7f10 inset;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-left a, .nav-right a {
+  color: #00ff7f;
+  margin-right: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.nav-left a:hover, .nav-right a:hover {
+  text-shadow: 0 0 5px #00ff7f, 0 0 10px #00ff7f;
+}
+
+/* Logo */
+.nav-logo {
+  font-size: 1.5rem;
+  margin-right: 30px;
+}
+
+/* Logout Button */
+.btn-logout {
+  background-color: #0a0a0a;
+  border: 1px solid #00ff7f;
+  color: #00ff7f;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.btn-logout:hover {
+  box-shadow: 0 0 10px #00ff7f, 0 0 20px #00ff7f inset;
+  background-color: #00ff7f10;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 20px 30px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid #00ff7f;
+  color: #00ff7f80;
+  font-size: 0.9rem;
+}

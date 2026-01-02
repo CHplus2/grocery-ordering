@@ -1,0 +1,244 @@
+/* ===========================
+   Hybrid Theme: Crypto + Fresh (Mint Edition)
+   Professional Edition
+=========================== */
+
+/* ---------------------------
+   Container
+--------------------------- */
+.admin-products-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+/* ---------------------------
+   Header
+--------------------------- */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #00c896, #06b6d4); /* mint → teal */
+  padding: 18px 28px;
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 6px 18px rgba(0, 150, 110, 0.25);
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Add Product Button */
+.add-product-btn {
+  background: white;
+  color: #00a884;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 200, 150, 0.25);
+  transition: all 0.25s ease;
+}
+
+.add-product-btn:hover {
+  background: #e9fff7;
+  transform: translateY(-2px);
+}
+
+/* ---------------------------
+   Product Cards
+--------------------------- */
+.admin-product-card {
+  display: flex;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0, 100, 80, 0.12);
+  gap: 18px;
+  border: 1px solid #d7f7ec;
+  transition: all 0.25s ease;
+}
+
+.admin-product-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 100, 80, 0.18);
+  border-color: #b8f4df;
+}
+
+/* Product Image */
+.admin-product-image {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #c9f7ea;
+}
+
+/* Card Right Section */
+.admin-card-right h3 {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+  color: #1f2a2e;
+  font-weight: 600;
+}
+
+.admin-card-right p {
+  margin: 4px 0;
+  color: #2f3d41;
+  font-size: 14px;
+}
+
+.admin-card-right .price {
+  color: #00a884;
+  font-weight: 700;
+}
+
+.admin-card-right .stock {
+  color: #00c896;
+}
+
+.admin-card-right .desc {
+  font-size: 13px;
+  color: #5d7270;
+}
+
+/* Buttons Row */
+.admin-btn-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+/* Buttons Base */
+.admin-btn-row button {
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+/* Edit Button - Crypto Mint */
+.admin-btn-row button:nth-child(1) {
+  background: linear-gradient(135deg, #00c896, #06b6d4);
+  color: white;
+}
+
+.admin-btn-row button:nth-child(1):hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Delete Button - Red */
+.admin-btn-row .danger {
+  background: #dc3545;
+  color: white;
+}
+
+.admin-btn-row .danger:hover {
+  background: #a71d2a;
+  transform: translateY(-1px);
+}
+
+/* ---------------------------
+   Edit Modal
+--------------------------- */
+.edit-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 20px;
+  box-shadow: 0 12px 36px rgba(0, 80, 60, 0.28);
+  z-index: 2000;
+  animation: pop 0.2s ease;
+  border: 1px solid #c7f6e5;
+}
+
+/* Modal Animation */
+@keyframes pop {
+  from { transform: translate(-50%, -45%); opacity: 0; }
+  to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+/* Modal Inputs */
+.edit-modal input,
+.edit-modal textarea,
+.edit-modal select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #bdeee0;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  background: #f8fffd;
+  color: #1f2a2e;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-modal input:focus,
+.edit-modal textarea:focus,
+.edit-modal select:focus {
+  border-color: #00c896;
+  box-shadow: 0 0 8px rgba(0, 200, 150, 0.35);
+  outline: none;
+}
+
+/* Modal Buttons */
+.edit-modal button {
+  width: 48%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Save Button - Green */
+.edit-modal button:first-of-type {
+  background: #00a884;
+  color: white;
+}
+
+.edit-modal button:first-of-type:hover {
+  background: #008f71;
+  transform: translateY(-2px);
+}
+
+/* Cancel Button - Soft Mint */
+.edit-modal button:last-of-type {
+  background: #e6fff4;
+  color: #1f2a2e;
+}
+
+.edit-modal button:last-of-type:hover {
+  background: #ccffeb;
+}
+
+/* Modal Overlay */
+.edit-modal::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(31, 42, 46, 0.55); /* semi-transparent charcoal */
+  backdrop-filter: blur(6px);
+  z-index: -1;
+}

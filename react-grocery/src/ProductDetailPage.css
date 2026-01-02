@@ -1,0 +1,67 @@
+/* ==========================
+   Product Detail Page
+========================== */
+
+.product-detail {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #f0fdf7; /* soft mint background */
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 150, 110, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-detail-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #ecfdf5; /* subtle placeholder */
+  padding: 12px;
+}
+
+.product-detail h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #134e4a; /* deep teal */
+  margin: 0;
+}
+
+.product-detail p {
+  font-size: 1rem;
+  color: #1f2a2e;
+  line-height: 1.5;
+}
+
+.product-detail p strong {
+  color: #059669; /* fresh green for emphasis */
+}
+
+/* Add to Cart Button */
+.add-btn {
+  align-self: start;
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  color: white;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+}
+
+.add-btn:hover {
+  background: linear-gradient(135deg, #10b981, #059669);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.add-btn:active {
+  transform: translateY(0);
+  background: #047857;
+}
