@@ -1,23 +1,20 @@
 from django.shortcuts import render
-from rest_framework import generics, viewsets, permissions, status
+from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission, SAFE_METHODS
 from .models import Product
 from django.contrib.auth.models import User
 from .serializers import ProductSerializer, UserSerializer
 from django.db.models import Sum, F
-
 from .models import Category, Product, CartItem, Order, OrderItem, Address
 from .serializers import (
     CategorySerializer,
     ProductSerializer,
     CartItemSerializer,
     OrderSerializer,
-    OrderItemSerializer,
     AddressSerializer
 )
-
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
@@ -35,17 +32,29 @@ def index(request):
 
 
 # ------------------------------------------
+# GET PERMISSION
+# ------------------------------------------
+
+class IsAdminOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        return request.user and request.user.is_staff
+
+# ------------------------------------------
 # CATEGORY CRUD
 # ------------------------------------------
 
 class CategoryListCreate(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 # ------------------------------------------
@@ -56,11 +65,13 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 class ProductListCreate(generics.ListCreateAPIView):
     queryset = Product.objects.all().order_by("-created_at")
     serializer_class = ProductSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 # ------------------------------------------
@@ -68,7 +79,7 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 # ------------------------------------------
 
 class CartViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         items = CartItem.objects.filter(user=request.user)
@@ -136,8 +147,8 @@ class CartViewSet(viewsets.ViewSet):
 # ------------------------------------------
 
 class AddressListCreate(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     serializer_class = AddressSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Address.objects.filter(user=request.user)
@@ -149,13 +160,14 @@ class AddressListCreate(generics.ListCreateAPIView):
 
 class OrderList(generics.ListAPIView):
     serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Order.objects.filter(user=request.user).order_by("-created_at")
 
 
 @api_view(["POST"])
+@permission_classes([IsAdminUser])
 def place_order(request):
     user = request.user
     address_id = request.data.get("address_id")
@@ -271,37 +283,6 @@ def check_auth(request):
 # ------------------------------------------
 # ADMIN
 # ------------------------------------------
-
-@api_view(["POST"])
-@permission_classes([IsAdminUser])
-def add_product(request):
-    serializer = ProductSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
-
-@api_view(["PUT", "DELETE"])
-@permission_classes([IsAdminUser])
-def admin_product_detail(request, pk):
-    try:
-        product = Product.objects.get(pk=pk)
-    except Product.DoesNotExist:
-        return Response({"error": "Product not found"}, status=404)
-
-    # UPDATE
-    if request.method == "PUT":
-        serializer = ProductSerializer(product, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, 400)
-
-    # DELETE
-    if request.method == "DELETE":
-        product.delete()
-        return Response({"message": "Product deleted"})
-
 
 @api_view(["GET"])
 @permission_classes([IsAdminUser])

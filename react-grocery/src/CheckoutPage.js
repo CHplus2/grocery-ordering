@@ -73,7 +73,6 @@ export default function CheckoutPage() {
 
     // 3) If COD → directly place order
     await placeOrder(data.id, form.payment);
-    alert("Order placed!");
     navigate("/");
   };
 

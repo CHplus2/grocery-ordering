@@ -120,7 +120,7 @@ function AnimatedRoutes({ isAdmin }) {
 
 function AppContent() {
   const { 
-    modalMotion,
+    modalMotion, refreshCart,
     checkAuth, handleLogout,
     showLogin, setShowLogin,
     showSignup, setShowSignup,
@@ -177,7 +177,8 @@ function AppContent() {
             onClose={() => setShowSignup(false)}
             onOpen={() => setShowLogin(true)}
             onSuccess={() => {
-              checkAuth();                   
+              checkAuth();  
+              refreshCart();               
             }}
           />
         )}
@@ -190,7 +191,8 @@ function AppContent() {
               onClose={() => setShowLogin(false)}
               onOpen={() => setShowSignup(true)}
               onSuccess={() => {
-                checkAuth();                   
+                checkAuth();   
+                refreshCart();                
               }}
           />
         )}

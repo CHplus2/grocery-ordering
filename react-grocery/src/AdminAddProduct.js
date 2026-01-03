@@ -31,7 +31,7 @@ export default function AdminAddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/products/add/", form, {
+      await axios.post("/api/admin/products/add/", form, {
         withCredentials: true,
         headers: { "X-CSRFToken": getCookie("csrftoken") },
       });

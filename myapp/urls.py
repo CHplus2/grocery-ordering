@@ -1,24 +1,7 @@
 from django.urls import path, include
-from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 
-from .views import (
-    index,
-    CategoryListCreate, CategoryDetail,
-    ProductListCreate, ProductDetail,
-    CartViewSet,
-    AddressListCreate,
-    OrderList, 
-    place_order,
-    add_product,
-    admin_product_detail, 
-    admin_order_list,
-    admin_order_detail,
-    product_sales_report,
-    admin_customers_list,
-    admin_customer_update,
-    signup_view, login_view, logout_view, check_auth,
-)
+from .views import *
 
 router = DefaultRouter()
 router.register("cart", CartViewSet, basename="cart")
@@ -41,11 +24,9 @@ urlpatterns = [
     path("api/orders/", OrderList.as_view()),
     path("api/orders/place/", place_order),
 
-    # Add Products
-    path("api/products/add/", add_product),
-
     # Admin 
-    path("api/admin/products/<int:pk>/", admin_product_detail),
+    path("api/admin/products/add/", ProductListCreate.as_view()),
+    path("api/admin/products/<int:pk>/", ProductDetail.as_view()),
     path("api/admin/orders/", admin_order_list, name="admin-order-list"),
     path("api/admin/orders/<int:pk>/", admin_order_detail, name="admin-order-detail"),
     path("api/admin/reports/sales/", product_sales_report, name="product-sales-report"),
@@ -59,6 +40,6 @@ urlpatterns = [
     path("api/check-auth/", check_auth),
 
 
-    # SPA React app
+    # Another React app
     path("api/spa/", include("myapp.api_urls")),
 ] + router.urls

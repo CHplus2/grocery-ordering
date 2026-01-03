@@ -28,7 +28,6 @@ export default function CartProvider({ children }) {
     try {
       const res = await axios.get("/api/check-auth/", { withCredentials: true })
       setIsAuthenticated(res.data.authenticated);
-
       setIsAdmin(res.data.is_admin); 
     } catch (err) {
       setIsAuthenticated(false);
@@ -62,9 +61,9 @@ export default function CartProvider({ children }) {
         withCredentials: true,
         headers: { "X-CSRFToken": getCookie("csrftoken") },
       });
-      setIsAuthenticated(false);
-      setIsAdmin(false);
+      checkAuth();
       setDropdownOpen(false);
+      refreshCart()
     } catch (err) {
       console.error(err);
     }
@@ -150,6 +149,7 @@ export default function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cart,
+        refreshCart,
         addToCart,
         removeFromCart,
         updateQuantity,
