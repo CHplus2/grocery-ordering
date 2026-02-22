@@ -20,8 +20,30 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 * **Manage Customers** – Track customer orders and manage user accounts.
 
 ## Screenshots
-(Screenshots (206).png)
-(Screenshots (207).png)
+(Screenshot (206).png)
+(Screenshot (207).png)
+(Screenshot (208).png)
+(Screenshot (209).png)
+(Screenshot (210).png)
+(Screenshot (211).png)
+(Screenshot (212).png)
+(Screenshot (213).png)
+(Screenshot (214).png)
+(Screenshot (215).png)
+(Screenshot (216).png)
+(Screenshot (217).png)
+(Screenshot (218).png)
+(Screenshot (219).png)
+(Screenshot (220).png)
+(Screenshot (221).png)
+(Screenshot (222).png)
+(Screenshot (223).png)
+(Screenshot (224).png)
+(Screenshot (225).png)
+(Screenshot (225).png)
+(Screenshot (226).png)
+(Screenshot (227).png)
+(Screenshot (228).png)
 
 ## Tech Stack
 
