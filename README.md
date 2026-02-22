@@ -19,6 +19,10 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 * **Generate Reports** – Generate product sales reports to analyze performance.
 * **Manage Customers** – Track customer orders and manage user accounts.
 
+## Screenshots
+(Screenshots (206).png)
+(Screenshots (207).png)
+
 ## Tech Stack
 
 * **Frontend:** React, CSS (custom design)
