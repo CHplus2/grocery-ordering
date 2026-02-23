@@ -30,9 +30,9 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 ![Admin Home Page](AdminHome.png)
 ![Admin Edit](AdminEdit.png)
 ![Admin Add](AdminAdd.png)
-![Admin Sales Page](Sales.png)
-![Admin Orders Page](Orders.png)
-![Admin Customers Page](Customers.png)
+![Admin Sales Page](AdminSales.png)
+![Admin Orders Page](AdminOrders.png)
+![Admin Customers Page](AdminCustomers.png)
 
 ## Tech Stack
 
