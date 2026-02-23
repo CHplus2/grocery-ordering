@@ -20,18 +20,18 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 * **Manage Customers** – Track customer orders and manage user accounts.
 
 ## Screenshots
-("Login.png")
-(Signup.png)
-(Search.png)
-(Home.png)
-(Detail.png)
-(Cart.png)
-(Checkout.png)
-(AdminHome.png)
-(AdminEdit.png)
-(AdminAdd.png)
-(AdminCustomer.png)
-(AdminOrders.png)
+![Login Page](Login.png)
+![Signup Page](Signup.png)
+![Search](Search.png)
+![Home Page](Home.png)
+![Product Detail Page](Detail.png)
+![Cart Page](Cart.png)
+![Checkout Page](Checkout.png)
+![Admin Home Page](AdminHome.png)
+![Admin Edit](AdminEdit.png)
+![Admin Add](AdminAdd.png)
+![Admin Customer Page](AdminCustomer.png)
+![Admin Order Page](AdminOrders.png)
 
 ## Tech Stack
 
