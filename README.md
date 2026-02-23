@@ -20,7 +20,7 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 * **Manage Customers** – Track customer orders and manage user accounts.
 
 ## Screenshots
-(Login.png)
+("Login.png")
 (Signup.png)
 (Search.png)
 (Home.png)
