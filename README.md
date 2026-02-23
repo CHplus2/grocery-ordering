@@ -22,11 +22,11 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 ## Screenshots
 ![Login Page](Login.png)
 ![Signup Page](Signup.png)
-![Search](Search.png)
 ![Home Page](Home.png)
 ![Product Detail Page](Detail.png)
 ![Cart Page](Cart.png)
 ![Checkout Page](Checkout.png)
+![Search](Search.png)
 ![Admin Home Page](AdminHome.png)
 ![Admin Edit](AdminEdit.png)
 ![Admin Add](AdminAdd.png)
