@@ -1,13 +1,14 @@
-from django.shortcuts import render
-from rest_framework import generics, viewsets
+from django.shortcuts import render, get_object_or_404
+from rest_framework import generics, viewsets, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission, SAFE_METHODS
-from .models import Product
+from decimal import Decimal
+import uuid
 from django.contrib.auth.models import User
 from .serializers import ProductSerializer, UserSerializer
 from django.db.models import Sum, F
-from .models import Category, Product, CartItem, Order, OrderItem, Address
+from .models import Category, Product, CartItem, Order, OrderItem, Address, Wallet, WalletTransaction
 from .serializers import (
     CategorySerializer,
     ProductSerializer,
@@ -15,12 +16,12 @@ from .serializers import (
     OrderSerializer,
     AddressSerializer
 )
+from .services.recommendation import recommend_for_user
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.utils.decorators import method_decorator
-
 import json
 
 # ------------------------------------------
@@ -40,6 +41,7 @@ class IsAdminOrReadOnly(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         return request.user and request.user.is_staff
+
 
 # ------------------------------------------
 # CATEGORY CRUD
@@ -151,7 +153,7 @@ class AddressListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Address.objects.filter(user=request.user)
+        return Address.objects.filter(user=self.request.user)
 
 
 # ------------------------------------------
@@ -163,11 +165,11 @@ class OrderList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(user=request.user).order_by("-created_at")
+        return Order.objects.filter(user=self.request.user).order_by("-created_at")
 
 
 @api_view(["POST"])
-@permission_classes([IsAdminUser])
+@permission_classes([IsAuthenticated])
 def place_order(request):
     user = request.user
     address_id = request.data.get("address_id")
@@ -185,7 +187,7 @@ def place_order(request):
     if not cart_items.exists():
         return Response({"error": "Cart empty"}, status=400)
     
-    if payment == "paypal":
+    if payment == "paypal" or payment =="wallet":
         is_paid = "paid"
     else:
         is_paid = "unpaid"
@@ -221,7 +223,89 @@ def place_order(request):
     order.save()
 
     cart_items.delete()
+
+    if payment == "wallet":
+        wallet = Wallet.objects.get(user=user)
+        if wallet.balance < order.total_amount:
+            return Response({"detail": "Insufficient balance"}, status=400)
+
+        wallet.balance -= order.total_amount
+        wallet.save()
+
+        WalletTransaction.objects.create(
+            wallet=wallet,
+            amount=order.total_amount,
+            type="payment",
+            reference=f"Order #{order.id}"
+        )
     return Response({"message": "Order placed", "order_id": order.id}, status=201)
+
+
+# ------------------------------------------
+# WALLET
+# ------------------------------------------
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_wallet(request):
+    try: 
+        wallet = Wallet.objects.get(user=request.user)
+        return Response({
+            "id": wallet.id,
+            "balance": float(wallet.balance),
+            "wallet_address": wallet.wallet_address
+        })
+    except Wallet.DoesNotExist:
+        return Response({"detail": "No wallet found"}, status=404)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def create_wallet(request):
+    if Wallet.objects.filter(user=request.user).exists():
+        return Response({"detail": "Wallet already exists"}, status=400)
+
+    wallet = Wallet.objects.create(
+        user=request.user,
+        balance=0,
+        wallet_address=f"TF-{uuid.uuid4().hex[:12].upper()}",
+        is_external=False
+    )
+
+    return Response({
+        "id": wallet.id,
+        "balance": float(wallet.balance),
+        "wallet_address": wallet.wallet_address
+    }, status=201)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def topup_wallet(request):
+    amount = Decimal(str(request.data.get("amount", 0)))
+
+    if amount <= 0:
+        return Response({"detail": "Invalid amount"}, status=400)
+    
+    try:
+        wallet = Wallet.objects.get(user=request.user)
+    except Wallet.DoesNotExist:
+        return Response({"detail": "No wallet found"}, status=400)
+    
+    wallet.balance += amount
+    wallet.save()
+
+    WalletTransaction.objects.create(
+        wallet=wallet,
+        amount=amount,
+        type="deposit",
+        reference="Manual top-up"
+    )
+
+    return Response({
+        "balance": float(wallet.balance),
+        "message": f"Successfully added {amount} TFT"
+    })
 
 
 # ------------------------------------------
@@ -281,6 +365,16 @@ def check_auth(request):
 
 
 # ------------------------------------------
+# RECOMMENDATION
+# ------------------------------------------
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def recommend(request):
+    return Response(recommend_for_user(request.user))
+
+
+# ------------------------------------------
 # ADMIN
 # ------------------------------------------
 
@@ -330,6 +424,10 @@ def product_sales_report(request):
     )
     return Response(sales)
 
+class AdminCustomerViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
 
 @api_view(["GET"])
 @permission_classes([IsAdminUser])

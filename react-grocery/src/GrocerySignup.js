@@ -46,7 +46,7 @@ function GrocerySignup({ animation, onClose, onOpen, onSuccess }) {
                 onClick={(e) => e.stopPropagation()}
             >
                 <button className="close-btn" onClick={onClose}>✖</button>
-                <h2>Sign up</h2>
+                <h2>Register for an Account</h2>
                 <form onSubmit={handleSubmit} className="login-form">
                 <input 
                         type="text" 

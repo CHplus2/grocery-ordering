@@ -1,60 +1,87 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 import { getCookie } from "./utils";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "./CartContext";
 import "./AdminProductsPage.css";
 
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const [newProduct, setNewProduct] = useState(false);
+  const [editedProduct, setEditedProduct] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { categories, products, fetchProducts, setProductIdToDelete } = useCart();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCategories();
-    fetchProducts();
-  }, []);
-
-  const fetchCategories = () => {
-    axios.get("/api/categories/").then((res) => setCategories(res.data));
+  const emptyForm = {
+    name: "",
+    price: "",
+    stock: "",
+    description: "",
+    category: ""
   };
 
-  const fetchProducts = () => {
-    axios.get("/api/products/").then((res) => setProducts(res.data));
+  const refreshPage = () => {
+    setLoading(false);
+    fetchProducts();
+  }
+
+  const validateInput = (product) => {
+    if (!product.name || !product.price || !product.stock || !product.category) {
+      setError("Please fill all required fields");
+      return false;
+    }
+    return true;
   };
 
-  const deleteProduct = async (id) => {
-    if (!window.confirm("Delete this product?")) return;
+  const handleAddProduct = async (e) => {
+    if (!validateInput(newProduct)) {
+      return;
+    }
 
-    await fetch(`/api/admin/products/${id}/`, {
-      method: "DELETE",
-      headers: {
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      credentials: "include",
-    });
+    setLoading(true);
 
-    fetchProducts();
+    try {
+      await axios.post("/api/admin/products/add/", newProduct, {
+        withCredentials: true,
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+      });
+      navigate("/admin/products"); 
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to add product");
+    } finally {
+      setNewProduct(null);
+      refreshPage();
+    }
   };
 
-  const startEdit = (product) => setEditingProduct({ ...product });
+  const handleEditProduct = async () => {
+    if (!validateInput(editedProduct)) {
+      return;
+    }
 
-  const saveEdit = async () => {
-    await fetch(`/api/admin/products/${editingProduct.id}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      credentials: "include",
-      body: JSON.stringify(editingProduct),
-    });
+    setLoading(true); 
 
-    setEditingProduct(null);
-    fetchProducts();
+    try {
+      await fetch(`/api/admin/products/${editedProduct.id}/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        credentials: "include",
+        body: JSON.stringify(editedProduct),
+      });
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to save changes");
+      return;
+    } finally {
+      setEditedProduct(null);
+      setLoading(false);
+      fetchProducts();
+    }
   };
 
   // Filter products
@@ -68,8 +95,8 @@ export default function AdminProductsPage() {
     <div className="admin-products-container">
       <div className="admin-header">
         <h1>Admin Product Management</h1>
-        <button className="add-product-btn" onClick={() => navigate("/admin/add-product")}>
-          Add Product
+        <button className="add-product-btn" onClick={() => setNewProduct(emptyForm)}>
+          Create Product
         </button>
       </div>
 
@@ -93,58 +120,82 @@ export default function AdminProductsPage() {
           ))}
         </select>
       </div>
-
+    
       {/* Product List */}
-      {filteredProducts.length === 0 ? (
-        <p className="no-results">No products found.</p>
-      ) : (
-        filteredProducts.map((p) => (
-          <div key={p.id} className="admin-product-card">
-            <div className="admin-card-left">
-              {p.image_url && <img src={p.image_url} alt={p.name} className="admin-product-image" />}
-            </div>
-            <div className="admin-card-right">
-              <h3>{p.name}</h3>
-              <p className="price">$ {p.price}</p>
-              <p className="stock">Stock: {p.stock}</p>
-              <p className="desc">{p.description}</p>
-              <p className="category">Category: {p.category_name || "None"}</p>
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((p) => (
+              <tr key={p.id}>
+                <td>
+                  <img src={p.image_url} alt={p.name} className="table-img" />
+                </td>
+                <td>{p.name}</td>
+              <td>${p.price}</td>
+              <td>{p.stock}</td>
+              <td>{p.category_name}</td>
+              <td>
+                <button onClick={() => setEditedProduct({ ...p })}>Edit</button>
+                <button
+                  className="danger"
+                  onClick={() => setProductIdToDelete(p.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">No products found.</td>
+            </tr>
+          )}
 
-              <div className="admin-btn-row">
-                <button onClick={() => startEdit(p)}>Edit</button>
-                <button onClick={() => deleteProduct(p.id)} className="danger">Delete</button>
-              </div>
-            </div>
-          </div>
-        ))
-      )}
+        </tbody>
+      </table>
 
-      {/* Edit Modal */}
-      {editingProduct && (
-        <div className="edit-modal">
-          <h2>Edit Product</h2>
+      {/* Edit Product Modal */}
+      {editedProduct && (
+      <div className="modal-overlay" onClick={() => setEditedProduct(null)}>
+        <div className="modal-content form-modal" onClick={(e) => e.stopPropagation()}>
+          <h2>Update Product</h2>
 
+          <label>Product Name</label>
           <input
-            value={editingProduct.name}
-            onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+            value={editedProduct.name}
+            onChange={(e) => setEditedProduct({ ...editedProduct, name: e.target.value })}
           />
+          <label>Price</label>
           <input
             type="number"
-            value={editingProduct.price}
-            onChange={(e) => setEditingProduct({ ...editingProduct, price: e.target.value })}
+            value={editedProduct.price}
+            onChange={(e) => setEditedProduct({ ...editedProduct, price: e.target.value })}
           />
+          <label>Stock</label>
           <input
             type="number"
-            value={editingProduct.stock}
-            onChange={(e) => setEditingProduct({ ...editingProduct, stock: e.target.value })}
+            value={editedProduct.stock}
+            onChange={(e) => setEditedProduct({ ...editedProduct, stock: e.target.value })}
           />
+          <label>Description</label>  
           <textarea
-            value={editingProduct.description}
-            onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+            value={editedProduct.description}
+            onChange={(e) => setEditedProduct({ ...editedProduct, description: e.target.value })}
           />
+          <label>Category</label>
           <select
-            value={editingProduct.category || ""}
-            onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+            value={editedProduct.category || ""}
+            onChange={(e) => setEditedProduct({ ...editedProduct, category: Number(e.target.value) })}
           >
             <option value="">-- Select Category --</option>
             {categories.map((c) => (
@@ -152,9 +203,81 @@ export default function AdminProductsPage() {
             ))}
           </select>
 
-          <button onClick={saveEdit}>Save</button>
-          <button onClick={() => setEditingProduct(null)}>Cancel</button>
+          <div className="modal-actions">  
+            <button onClick={handleEditProduct} disabled={loading}>
+              {loading ? "Saving..." : "Save"}
+            </button>
+            <button onClick={() => setEditedProduct(null)}>Cancel</button>
+          </div>
+         {error && <p className="error">{error}</p>}
         </div>
+      </div>
+      )}
+
+      {/* Add Product Modal */}
+      {newProduct && (
+      <div className="modal-overlay" onClick={() => setEditedProduct(null)}>
+        <div className="modal-content form-modal" onClick={(e) => e.stopPropagation()}>
+          <h2>Create Product</h2>
+
+          <label>Name</label>
+          <input
+            value={newProduct.name}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, name: e.target.value })
+            }
+          />
+
+          <label>Price</label>
+          <input
+            type="number"
+            value={newProduct.price}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, price: e.target.value })
+            }
+          />
+
+          <label>Stock</label>
+          <input
+            type="number"
+            value={newProduct.stock}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, stock: e.target.value })
+            }
+          />
+
+          <label>Description</label>
+          <textarea
+            value={newProduct.description}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, description: e.target.value })
+            }
+          />
+
+          <label>Category</label>
+          <select
+            value={newProduct.category}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, category: Number(e.target.value) })
+            }
+          >
+            <option value="">-- Select Category --</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+
+          <div className="modal-actions">
+            <button onClick={handleAddProduct} disabled={loading}>
+              {loading ? "Adding..." : "Add"}
+            </button>
+            <button onClick={() => setNewProduct(null)}>Cancel</button>
+          </div>
+          {error && <p className="error">{error}</p>}
+        </div>
+      </div>
       )}
     </div>
   );

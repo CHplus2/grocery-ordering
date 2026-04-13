@@ -1,62 +1,181 @@
+/* ==============================
+   CONTAINER
+============================== */
 .checkout-container {
-  max-width: 500px;
+  max-width: 1100px;
   margin: 40px auto;
-  padding: 24px;
-  background: #f0fdf7; /* mint pastel */
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 28px;
 }
 
+/* TITLE */
 .checkout-title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #047857; /* dark mint */
-  text-align: center;
-  margin-bottom: 24px;
+  color: #f3f4f6;
+  margin-bottom: 30px;
 }
 
-/* Form layout */
+/* GRID LAYOUT */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* ==============================
+   LEFT FORM
+============================== */
+.checkout-left {
+  background: rgba(17, 24, 39, 0.7);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.back-btn:hover {
+  color: #22d3ee;
+}
+
 .checkout-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Input fields */
+.form-section {
+  margin-bottom: 18px;
+}
+
+.form-section h4 {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
 .checkout-input {
-  padding: 12px 14px;
-  font-size: 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background: #ffffff;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+  padding: 12px 16px;
+  border-radius: 12px;
+
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #e5e7eb;
+
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s ease;
 }
 
 .checkout-input:focus {
-  border-color: #10b981; /* mint green focus */
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
 }
 
-/* Submit button */
+.checkout-input:hover {
+  border-color: rgba(255,255,255,0.2);
+}
+
+.payment-options label {
+  display: block;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+/* BUTTON */
 .checkout-submit {
+  margin-top: 10px;
   padding: 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1rem;
-  background: #10b981; /* mint green */
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
   color: white;
+
+  font-weight: 700;
   border: none;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.15s ease;
+
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.4);
+  transition: all 0.25s ease;
 }
 
 .checkout-submit:hover {
-  background: #059669;
   transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
 }
 
-.checkout-submit:active {
-  background: #047857;
-  transform: translateY(0);
+.checkout-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==============================
+   RIGHT SUMMARY
+============================== */
+.checkout-right {
+  background: rgba(17, 24, 39, 0.7);
+  padding: 24px;
+  border-radius: 16px;
+
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+
+  position: sticky;
+  top: 90px;
+  align-self: start;
+
+  height: fit-content;
+}
+
+.summary-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin-bottom: 16px;
+}
+
+.summary-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 10px 0;
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+
+.summary-total {
+  margin-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 12px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  text-align: right;
+}
+
+.summary-total strong {
+  color: #22d3ee;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
 }

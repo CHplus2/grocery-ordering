@@ -2,15 +2,11 @@
 __pycache__/
 *.pyc
 venv/
+.env
 
 # Django
 db.sqlite3
 *.log
-
-# Node / Frontend
-node_modules/
-dist/
-build/
 
 # Editor
 .vscode/

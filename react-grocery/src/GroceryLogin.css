@@ -1,125 +1,175 @@
-/* ===========================
-   Modal Overlay (Mint Crypto Theme)
-   =========================== */
+/* =========================
+   OVERLAY (DARK CRYPTO)
+========================= */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 80, 60, 0.45); /* mint-tinted darkness */
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+  position: fixed;
+  inset: 0;
+
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2000;
 }
 
-/* ===========================
-   Modal Container
-   =========================== */
+/* =========================
+   MODAL CONTAINER
+========================= */
 .modal-content {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 2rem;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 380px;
-    box-shadow: 0 8px 25px rgba(0, 160, 120, 0.25);
-    position: relative;
-    color: #0f2a24;
-    border: 1px solid rgba(0, 200, 150, 0.25); /* mint glow border */
+  width: 100%;
+  max-width: 400px;
+  padding: 28px;
+
+  border-radius: 18px;
+
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.7),
+    0 0 40px rgba(124, 58, 237, 0.15);
+
+  color: #e5e7eb;
+  position: relative;
 }
 
-/* Close button */
+/* subtle glow */
+.modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+
+  background: radial-gradient(circle at top, rgba(124,58,237,0.2), transparent 60%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
 .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: transparent;
-    border: none;
-    font-size: 1.3rem;
-    color: #06615a;
-    cursor: pointer;
-    transition: color 0.2s ease;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  background: transparent;
+  border: none;
+
+  color: #9ca3af;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  transition: 0.2s;
 }
+
 .close-btn:hover {
-    color: #00c896; /* mint accent */
+  color: #e5e7eb;
 }
 
-/* Title */
+/* =========================
+   TITLE
+========================= */
 .modal-content h2 {
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    color: #00c896; /* mint accent */
-    text-align: center;
-    font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  background: linear-gradient(90deg, #7c3aed, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* ===========================
-   Login Form
-   =========================== */
+/* =========================
+   FORM
+========================= */
 .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
+/* INPUTS */
 .login-form input {
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    border: 1px solid #b7e9dd;
-    background: #f0fffb;
-    color: #1f2a2e;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 12px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  background: rgba(255,255,255,0.03);
+  color: #e5e7eb;
+
+  transition: 0.2s;
+}
+
+.login-form input::placeholder {
+  color: #6b7280;
 }
 
 .login-form input:focus {
-    border-color: #06b6d4; /* crypto aqua */
-    box-shadow: 0 0 6px rgba(0, 180, 210, 0.4);
-    outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 10px rgba(124,58,237,0.5);
+  outline: none;
 }
 
-/* Login button */
+/* =========================
+   BUTTON
+========================= */
 .login-form button {
-    padding: 0.75rem;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #00c896, #06b6d4);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity 0.25s ease, transform 0.15s ease;
-    box-shadow: 0 4px 12px rgba(0, 180, 150, 0.35);
+  margin-top: 6px;
+  padding: 12px;
+
+  border-radius: 12px;
+  border: none;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  color: white;
+  background: linear-gradient(135deg, #7c3aed, #22d3ee);
+
+  transition: 0.25s;
+  box-shadow: 0 0 16px rgba(124,58,237,0.4);
 }
+
 .login-form button:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(34,211,238,0.6);
 }
 
-/* Errors */
+/* =========================
+   ERROR
+========================= */
 .error {
-    color: #d62828;
-    font-size: 0.9rem;
-    text-align: center;
+  color: #ef4444;
+  font-size: 13px;
+  text-align: center;
 }
 
-/* Sign up text */
+/* =========================
+   FOOTER TEXT
+========================= */
 .modal-content p {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #0f3d37;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13px;
+  color: #9ca3af;
 }
 
-/* Link */
+/* LINK */
 .switch-link {
-    color: #06b6d4;
-    text-decoration: none;
-    font-weight: 600;
+  color: #22d3ee;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .switch-link:hover {
-    color: #00c896;
+  color: #7c3aed;
 }

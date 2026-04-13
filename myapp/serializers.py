@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import (
     Category, Product, CartItem, Order, OrderItem, Address
 )
+from .services.ai import ai_summarize
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,6 +18,25 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at"]
+
+    def create(self, validated_data):
+        if validated_data.get("description") and not validated_data.get("ai_summary"):
+            ai_summary = ai_summarize(validated_data["description"])
+            if ai_summary:
+                validated_data["ai_summary"] = ai_summary
+
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        if "description" in validated_data and instance.description != validated_data.get("description"):
+            try:
+                ai_summary = ai_summarize(validated_data["description"])
+                if ai_summary:
+                    instance.ai_summary = ai_summary
+            except Exception as e:
+                pass
+
+        return super().update(instance, validated_data)
 
 
 class CartItemSerializer(serializers.ModelSerializer):

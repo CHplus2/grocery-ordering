@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { getCookie } from "./utils";
 import { motion } from "framer-motion";
 import axios from "axios"
@@ -36,7 +36,7 @@ function GroceryLogin({ animation, onClose, onOpen, onSuccess }) {
                 onClick={(e) => e.stopPropagation()}
             >
                 <button className="close-btn" onClick={onClose}>✖</button>
-                <h2>Login</h2>
+                <h2>Access Your Account</h2>
                 <form onSubmit={handleSubmit} className="login-form">
                 <input 
                         type="text" 

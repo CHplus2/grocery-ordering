@@ -1,244 +1,282 @@
-/* ===========================
-   Hybrid Theme: Crypto + Fresh (Mint Edition)
-   Professional Edition
-=========================== */
+/* =========================
+   ROOT THEME (CRYPTO)
+========================= */
+:root {
+  --bg: #0b1120;
+  --card: rgba(17, 24, 39, 0.7);
+  --border: rgba(255,255,255,0.08);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
 
-/* ---------------------------
-   Container
---------------------------- */
+  --primary: #7c3aed;   /* purple */
+  --secondary: #22d3ee; /* cyan */
+  --danger: #ef4444;
+}
+
+/* =========================
+   CONTAINER
+========================= */
 .admin-products-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 28px;
-  font-family: "Inter", Arial, sans-serif;
+  font-family: "Inter", sans-serif;
+  color: var(--text);
 }
 
-/* ---------------------------
-   Header
---------------------------- */
+/* =========================
+   HEADER
+========================= */
 .admin-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #00c896, #06b6d4); /* mint → teal */
+
+  background: var(--card);
+  backdrop-filter: blur(12px);
+
   padding: 18px 28px;
   border-radius: 16px;
-  color: white;
-  box-shadow: 0 6px 18px rgba(0, 150, 110, 0.25);
+
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 .admin-header h1 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 22px;
+  font-weight: 600;
 }
 
-/* Add Product Button */
+/* BUTTON (PRIMARY) */
 .add-product-btn {
-  background: white;
-  color: #00a884;
-  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+
+  padding: 10px 18px;
   border-radius: 12px;
   border: none;
+
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0, 200, 150, 0.25);
+
   transition: all 0.25s ease;
 }
 
 .add-product-btn:hover {
-  background: #e9fff7;
   transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
 }
 
-/* ---------------------------
-   Product Cards
---------------------------- */
-.admin-product-card {
+/* =========================
+   SEARCH + FILTER
+========================= */
+.admin-browse-controls {
   display: flex;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(0, 100, 80, 0.12);
-  gap: 18px;
-  border: 1px solid #d7f7ec;
-  transition: all 0.25s ease;
+  gap: 12px;
 }
 
-.admin-product-card:hover {
-  box-shadow: 0 8px 28px rgba(0, 100, 80, 0.18);
-  border-color: #b8f4df;
+.search-input,
+.category-select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+
+  padding: 12px;
+  border-radius: 10px;
+  outline: none;
+
+  transition: 0.2s;
 }
 
-/* Product Image */
-.admin-product-image {
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 1px solid #c9f7ea;
+.search-input:focus,
+.category-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
 }
 
-/* Card Right Section */
-.admin-card-right h3 {
-  margin: 0 0 6px 0;
-  font-size: 20px;
-  color: #1f2a2e;
-  font-weight: 600;
+/* =========================
+   TABLE
+========================= */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  background: var(--card);
+  backdrop-filter: blur(10px);
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  border: 1px solid var(--border);
 }
 
-.admin-card-right p {
-  margin: 4px 0;
-  color: #2f3d41;
-  font-size: 14px;
-}
-
-.admin-card-right .price {
-  color: #00a884;
-  font-weight: 700;
-}
-
-.admin-card-right .stock {
-  color: #00c896;
-}
-
-.admin-card-right .desc {
+.admin-table th {
+  text-align: left;
+  padding: 14px;
   font-size: 13px;
-  color: #5d7270;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
 }
 
-/* Buttons Row */
-.admin-btn-row {
-  display: flex;
-  gap: 14px;
-  margin-top: 12px;
+.admin-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
-/* Buttons Base */
-.admin-btn-row button {
-  padding: 12px 18px;
-  border-radius: 14px;
+/* ROW HOVER */
+.admin-table tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+/* IMAGE */
+.table-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+.admin-table button {
+  padding: 6px 12px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.25s ease;
+  font-size: 13px;
+  margin-right: 6px;
 }
 
-/* Edit Button - Crypto Mint */
-.admin-btn-row button:nth-child(1) {
-  background: linear-gradient(135deg, #00c896, #06b6d4);
-  color: white;
+/* EDIT */
+.admin-table button:first-child {
+  background: rgba(124,58,237,0.2);
+  color: var(--primary);
 }
 
-.admin-btn-row button:nth-child(1):hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+.admin-table button:first-child:hover {
+  background: rgba(124,58,237,0.35);
 }
 
-/* Delete Button - Red */
-.admin-btn-row .danger {
-  background: #dc3545;
-  color: white;
+/* DELETE */
+.admin-table .danger {
+  background: rgba(239,68,68,0.15);
+  color: var(--danger);
 }
 
-.admin-btn-row .danger:hover {
-  background: #a71d2a;
-  transform: translateY(-1px);
+.admin-table .danger:hover {
+  background: rgba(239,68,68,0.3);
 }
 
-/* ---------------------------
-   Edit Modal
---------------------------- */
-.edit-modal {
+/* =========================
+   MODAL
+========================= */
+.form-modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 440px;
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 20px;
-  box-shadow: 0 12px 36px rgba(0, 80, 60, 0.28);
+
+  width: 460px;
+
+  background: var(--card);
+  backdrop-filter: blur(16px);
+
+  padding: 26px;
+  border-radius: 18px;
+
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+
+  max-height: 80vh;
+  overflow-y: auto;
+
   z-index: 2000;
-  animation: pop 0.2s ease;
-  border: 1px solid #c7f6e5;
 }
 
-/* Modal Animation */
-@keyframes pop {
-  from { transform: translate(-50%, -45%); opacity: 0; }
-  to { transform: translate(-50%, -50%); opacity: 1; }
+.form-modal label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  display: block;
 }
 
-/* Modal Inputs */
-.edit-modal input,
-.edit-modal textarea,
-.edit-modal select {
+/* INPUTS */
+.form-modal input,
+.form-modal textarea,
+.form-modal select {
   width: 100%;
-  padding: 14px;
-  border: 1px solid #bdeee0;
-  border-radius: 12px;
-  margin-bottom: 14px;
-  font-size: 14px;
-  background: #f8fffd;
-  color: #1f2a2e;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 12px;
+
+  margin-bottom: 12px;
+
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  color: var(--text);
 }
 
-.edit-modal input:focus,
-.edit-modal textarea:focus,
-.edit-modal select:focus {
-  border-color: #00c896;
-  box-shadow: 0 0 8px rgba(0, 200, 150, 0.35);
+.form-modal input:focus,
+.form-modal textarea:focus,
+.form-modal select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(124,58,237,0.5);
   outline: none;
 }
 
-/* Modal Buttons */
-.edit-modal button {
-  width: 48%;
+/* ACTIONS */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* PRIMARY (Save / Add) */
+.modal-actions button:first-child {
+  flex: 1;
+
   padding: 14px;
   border-radius: 14px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
 
-/* Save Button - Green */
-.edit-modal button:first-of-type {
-  background: #00a884;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: 0.25s;
 }
 
-.edit-modal button:first-of-type:hover {
-  background: #008f71;
+.modal-actions button:first-child:hover {
   transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(124,58,237,0.4);
 }
 
-/* Cancel Button - Soft Mint */
-.edit-modal button:last-of-type {
-  background: #e6fff4;
-  color: #1f2a2e;
+/* SECONDARY (Cancel) */
+.modal-actions button:last-child {
+  flex: 1;
+
+  padding: 12px;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+
+  color: var(--text);
 }
 
-.edit-modal button:last-of-type:hover {
-  background: #ccffeb;
+.modal-actions button:last-child:hover {
+  background: rgba(255,255,255,0.1);
 }
 
-/* Modal Overlay */
-.edit-modal::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(31, 42, 46, 0.55); /* semi-transparent charcoal */
-  backdrop-filter: blur(6px);
-  z-index: -1;
+/* =========================
+   ERROR
+========================= */
+.error {
+  color: var(--danger);
+  font-size: 13px;
 }

@@ -3,20 +3,24 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react
 import { User } from "lucide-react";
 import { useCart } from "./CartContext";
 import CartProvider from "./CartContext";
+import RequireAuth from "./RequireAuth";
 import GroceryLogin from "./GroceryLogin";
 import GrocerySignup from "./GrocerySignup";
+import DeleteProduct from "./DeleteProduct";
 import CheckoutPage from "./CheckoutPage";
+import PaymentPage from "./PaymentPage";
 import ProductsPage from "./ProductsPage";
 import ProductsDetailPage from "./ProductDetailPage";
 import CartPage from "./CartPage";
+import OrdersPage from "./OrdersPage";
 import AdminProductsPage from "./AdminProductsPage";
-import AdminAddProduct from "./AdminAddProduct";
 import AdminOrdersPage from "./AdminOrdersPage";
 import AdminReportsPage from "./AdminReportsPage";
 import AdminCustomersPage from "./AdminCustomersPage";
 import "./App.css";
+import { useEffect } from "react";
 
-function AnimatedRoutes({ isAdmin }) {
+function AnimatedRoutes() {
   const location = useLocation();
 
   const page_motion = {
@@ -35,7 +39,9 @@ function AnimatedRoutes({ isAdmin }) {
             <motion.div
               {...page_motion}
             >
-              <ProductsPage/>
+              <RequireAuth message="Please log in to view products">
+                <ProductsPage/>
+              </RequireAuth>
             </motion.div>
           } 
         />
@@ -45,7 +51,9 @@ function AnimatedRoutes({ isAdmin }) {
             <motion.div
               {...page_motion}
             >
-              <ProductsDetailPage/>
+              <RequireAuth message="Please log in to view product details">
+                <ProductsDetailPage/>
+              </RequireAuth>
             </motion.div>
           } 
         />
@@ -55,7 +63,9 @@ function AnimatedRoutes({ isAdmin }) {
             <motion.div
               {...page_motion}
             >
-              <CartPage />
+              <RequireAuth message="Please log in to view your cart">
+                <CartPage />
+              </RequireAuth>
             </motion.div>
           } 
         />
@@ -65,54 +75,77 @@ function AnimatedRoutes({ isAdmin }) {
             <motion.div
               {...page_motion}
             >
-              <CheckoutPage />
+              <RequireAuth message="Please log in to proceed to checkout">
+                <CheckoutPage />
+              </RequireAuth>
             </motion.div>
           }
         />
-        {isAdmin && (
-          <>
-            <Route 
-              path="/admin/products" 
-              element={
-                <motion.div {...page_motion}>
-                  <AdminProductsPage />
-                </motion.div>
-              }
-            />
-            <Route 
-              path="/admin/add-product" 
-              element={
-                <motion.div {...page_motion}>
-                  <AdminAddProduct />
-                </motion.div>
-              }
-            />
-            <Route 
-              path="/admin/orders" 
-              element={
-                <motion.div {...page_motion}>
-                  <AdminOrdersPage />
-                </motion.div>
-              }
-            />
-            <Route 
-              path="/admin/reports" 
-              element={
-                <motion.div {...page_motion}>
-                  <AdminReportsPage />
-                </motion.div>
-              }
-            />
-            <Route 
-              path="/admin/customers" 
-              element={
-                <motion.div {...page_motion}>
-                  <AdminCustomersPage />
-                </motion.div>
-              }
-            />
-          </>
-        )}
+        <Route 
+          path="/payment/:method" 
+          element={
+            <motion.div
+              {...page_motion}
+            >
+              <RequireAuth message="Please log in to proceed to checkout">
+                <PaymentPage />
+              </RequireAuth>
+            </motion.div>
+
+          }
+        />
+        <Route 
+          path="/orders" 
+          element={
+            <motion.div
+              {...page_motion}
+            >
+              <RequireAuth message="Please log in to view your orders">
+                <OrdersPage />
+              </RequireAuth>
+            </motion.div>
+          }
+        />
+        <Route 
+          path="/admin/products" 
+          element={
+            <motion.div {...page_motion}>
+              <RequireAuth message="Admin access required">
+                <AdminProductsPage />
+              </RequireAuth>
+            </motion.div>
+          }
+        />
+        <Route 
+          path="/admin/orders" 
+          element={
+            <motion.div {...page_motion}>
+              <RequireAuth message="Admin access required">
+                <AdminOrdersPage />
+              </RequireAuth>
+            </motion.div>
+          }
+        />
+        <Route 
+          path="/admin/reports" 
+          element={
+            <motion.div {...page_motion}>
+              <RequireAuth message="Admin access required">
+                <AdminReportsPage />
+              </RequireAuth>
+            </motion.div>
+          }
+        />
+        <Route 
+          path="/admin/customers" 
+          element={
+            <motion.div {...page_motion}>
+              <RequireAuth message="Admin access required">
+                <AdminCustomersPage />
+              </RequireAuth>
+            </motion.div>
+          }
+        />
       </Routes>
     </AnimatePresence>
   )
@@ -121,12 +154,25 @@ function AnimatedRoutes({ isAdmin }) {
 function AppContent() {
   const { 
     modalMotion, refreshCart,
-    checkAuth, handleLogout,
     showLogin, setShowLogin,
     showSignup, setShowSignup,
     dropdownOpen, setDropdownOpen,
-    isAuthenticated, isAdmin
+    isAuthenticated, isAdmin,
+    alert, setAlert,
+    checkAuth, handleLogout,
+    productIdToDelete, setProductIdToDelete,
+    deleteProduct
   } = useCart();
+
+  useEffect(() => {
+    if (!alert.message) return;
+
+    const timer = setTimeout(() => {
+      setAlert({ message: "", type: "" });
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [alert, setAlert]);
 
   return (
     <Router>
@@ -136,7 +182,10 @@ function AppContent() {
               TokenFresh
             </Link>
             <Link to="/">Products</Link>
-            <Link to="/cart">Cart</Link>
+            {isAuthenticated && <>
+              <Link to="/cart">Cart</Link>
+              <Link to="/orders">My Orders</Link>
+            </>}
             {isAdmin && <>
               <Link to="/admin/products">Admin Products</Link>
               <Link to="/admin/customers">Customers</Link>
@@ -146,7 +195,7 @@ function AppContent() {
           </div>
         
           <div className="nav-right">
-            {!isAuthenticated ? (
+            {isAuthenticated === null ? null : isAuthenticated === false ? (
               <button className="login-btn" onClick={() => setShowLogin(true)}>
                 Log in
               </button>
@@ -177,8 +226,8 @@ function AppContent() {
             onClose={() => setShowSignup(false)}
             onOpen={() => setShowLogin(true)}
             onSuccess={() => {
-              checkAuth();  
-              refreshCart();               
+              checkAuth();
+              refreshCart();         
             }}
           />
         )}
@@ -187,27 +236,50 @@ function AppContent() {
       <AnimatePresence>
         {showLogin && (
           <GroceryLogin 
-              animation={modalMotion}
-              onClose={() => setShowLogin(false)}
-              onOpen={() => setShowSignup(true)}
-              onSuccess={() => {
-                checkAuth();   
-                refreshCart();                
-              }}
+            animation={modalMotion}
+            onClose={() => setShowLogin(false)}
+            onOpen={() => setShowSignup(true)}
+            onSuccess={() => {
+              checkAuth();
+              refreshCart();               
+            }}
           />
         )}
       </AnimatePresence>
-      
-      <AnimatedRoutes
-        isAdmin={isAdmin}
-      ></AnimatedRoutes>
 
+      <AnimatePresence>
+        {productIdToDelete && (
+          <DeleteProduct 
+            animation={modalMotion}
+            onClose={() => setProductIdToDelete(null)}
+            onSuccess={() => {
+              deleteProduct(productIdToDelete);
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {alert?.message && (
+          <motion.div 
+            className={`alert ${alert.type}`}
+            initial={{ opacity: 0, y:30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+          >
+            <div>
+              {alert.message}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      <AnimatedRoutes></AnimatedRoutes>
     </Router>
   )
 }
 
 export default function App() {
-
 
   return (
     <CartProvider>

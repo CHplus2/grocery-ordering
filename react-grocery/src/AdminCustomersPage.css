@@ -1,95 +1,146 @@
-/* ===========================
-   Admin Customers Page
-   =========================== */
+/* =========================
+   ROOT (MATCH YOUR SYSTEM)
+========================= */
+:root {
+  --bg: #020617;
+  --card: rgba(17, 24, 39, 0.7);
+  --border: rgba(255,255,255,0.08);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+
+  --primary: #7c3aed;
+  --secondary: #22d3ee;
+  --danger: #ef4444;
+  --success: #22c55e;
+}
+
+/* =========================
+   CONTAINER
+========================= */
 .admin-customers-container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 40px auto;
-  padding: 20px;
-  background: #e6fff4; /* soft mint background */
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 150, 110, 0.1);
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 24px;
+
+  color: var(--text);
+  font-family: "Inter", sans-serif;
 }
 
-/* Page title */
+/* =========================
+   TITLE
+========================= */
 .admin-customers-container h1 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 25px;
-  color: #1f2a2e; /* dark charcoal */
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Table styling */
+/* =========================
+   TABLE WRAPPER (GLASS CARD)
+========================= */
 .admin-customers-container table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
+
+  background: var(--card);
+  backdrop-filter: blur(12px);
+
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
+/* HEADER */
 .admin-customers-container thead {
-  background: linear-gradient(135deg, #00c896, #06b6d4);
-  color: white;
-}
-
-.admin-customers-container th,
-.admin-customers-container td {
-  padding: 12px 16px;
-  text-align: left;
-  font-size: 14px;
-  border-bottom: 1px solid #e6f7f0;
+  background: rgba(255,255,255,0.02);
 }
 
 .admin-customers-container th {
-  font-weight: 600;
-}
-
-.admin-customers-container tbody tr:hover {
-  background: #f0fff7; /* soft mint hover */
-}
-
-.admin-customers-container td {
-  color: #1f2a2e;
-}
-
-/* Action buttons */
-.admin-customers-container button {
-  padding: 6px 14px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
+  text-align: left;
+  padding: 14px;
   font-size: 13px;
-  transition: 0.2s ease;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
 }
 
-/* Activate / Deactivate buttons */
-.admin-customers-container button:hover {
-  opacity: 0.85;
+/* ROWS */
+.admin-customers-container td {
+  padding: 14px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.admin-customers-container button:contains('Activate') {
-  background: #28a745;
-  color: white;
+/* HOVER */
+.admin-customers-container tbody tr:hover {
+  background: rgba(255,255,255,0.03);
 }
 
-.admin-customers-container button:contains('Deactivate') {
-  background: #dc3545;
-  color: white;
+/* =========================
+   STATUS BADGES
+========================= */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-/* Responsive for smaller screens */
-@media (max-width: 768px) {
-  .admin-customers-container th,
-  .admin-customers-container td {
-    padding: 10px 8px;
-    font-size: 13px;
-  }
-  .admin-customers-container button {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
+/* Active */
+.status-active {
+  background: rgba(34,197,94,0.15);
+  color: var(--success);
+  border: 1px solid rgba(34,197,94,0.3);
+}
+
+/* Inactive */
+.status-inactive {
+  background: rgba(239,68,68,0.15);
+  color: var(--danger);
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+/* Admin badge */
+.status-admin {
+  background: rgba(124,58,237,0.15);
+  color: var(--primary);
+  border: 1px solid rgba(124,58,237,0.3);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.admin-customers-container button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+
+  transition: all 0.25s ease;
+}
+
+/* Activate */
+.btn-activate {
+  background: rgba(34,197,94,0.15);
+  color: var(--success);
+}
+
+.btn-activate:hover {
+  background: rgba(34,197,94,0.3);
+}
+
+/* Deactivate */
+.btn-deactivate {
+  background: rgba(239,68,68,0.15);
+  color: var(--danger);
+}
+
+.btn-deactivate:hover {
+  background: rgba(239,68,68,0.3);
 }

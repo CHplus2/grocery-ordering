@@ -15,66 +15,70 @@ export default function CartPage() {
     <div className="cart-container">
       <h1 className="cart-title">Your Cart</h1>
 
-      {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
-      ) : (
+      {cart.length > 0 ? (
         <>
           {cart.map((item) => (
             <div key={item.id} className="cart-item">
-              {/* IMAGE */}
-              <div className="cart-image-wrapper">
-                {item.product.image_url ? (
-                  <img
-                    src={item.product.image_url}
-                    alt={item.product.name}
-                    className="cart-item-image"
-                  />
-                ) : (
-                  <div className="cart-image-placeholder">No Image</div>
-                )}
+              
+              {/* LEFT: IMAGE + INFO */}
+              <div className="cart-left">
+                <div className="cart-image-wrapper">
+                  {item.product.image_url ? (
+                    <img
+                      src={item.product.image_url}
+                      alt={item.product.name}
+                      className="cart-item-image"
+                    />
+                  ) : (
+                    <div className="cart-image-placeholder">No Image</div>
+                  )}
+                </div>
+
+                <div className="cart-item-info">
+                  <p className="cart-item-name">{item.product.name}</p>
+                  <p className="cart-item-price">
+                    RM {item.product.price}
+                  </p>
+                </div>
               </div>
 
-              {/* PRODUCT INFO */}
-              <div className="cart-item-info">
-                <p className="cart-item-name">{item.product.name}</p>
-                <p className="cart-item-price">
-                  RM {item.product.price}
-                </p>
-              </div>
+              {/* RIGHT SIDE */}
+              <div className="cart-right">
+                <div className="qty-controls">
+                  <button
+                    className="qty-btn"
+                    onClick={() =>
+                      updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                    }
+                  >
+                    −
+                  </button>
 
-              {/* QUANTITY */}
-              <div className="qty-controls">
+                  <span className="qty-number">{item.quantity}</span>
+
+                  <button
+                    className="qty-btn"
+                    onClick={() =>
+                      updateQuantity(item.id, item.quantity + 1)
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+
                 <button
-                  className="qty-btn"
-                  onClick={() =>
-                    updateQuantity(item.id, item.quantity - 1)
-                  }
+                  className="remove-btn"
+                  onClick={() => removeFromCart(item.id)}
                 >
-                  −
-                </button>
-
-                <span className="qty-number">{item.quantity}</span>
-
-                <button
-                  className="qty-btn"
-                  onClick={() =>
-                    updateQuantity(item.id, item.quantity + 1)
-                  }
-                >
-                  +
+                  Remove
                 </button>
               </div>
 
-              {/* REMOVE */}
-              <button
-                className="remove-btn"
-                onClick={() => removeFromCart(item.id)}
-              >
-                Remove
-              </button>
             </div>
           ))}
         </>
+      ) : (
+        <p>Your cart is empty.</p>
       )}
 
       <div className="cart-total">

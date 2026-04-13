@@ -14,6 +14,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    ai_summary = models.TextField(blank=True)  
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=0)
@@ -23,6 +24,34 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.stock} left)"
+
+
+
+# ============ WALLET ============
+class Wallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    balance = models.DecimalField(max_digits=18, decimal_places=10, default=0)
+    wallet_address = models.CharField(max_length=255, unique=True)
+    is_external = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Wallet - Balance: {self.balance}"
+    
+class WalletTransaction(models.Model):
+    TRANSACTION_TYPES = [
+        ("deposit", "Deposit"),
+        ("withdrawal", "Withdrawal"),
+        ("payment", "Payment"),
+        ("refund", "Refund")
+    ]
+
+    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="transactions")
+    amount = models.DecimalField(max_digits=18, decimal_places=10)
+    type = models.CharField(max_length=20, choices=TRANSACTION_TYPES)
+    reference = models.CharField(max_length=255, blank=True) # e.g. Order ID
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 # ============ USER ADDRESSES ============

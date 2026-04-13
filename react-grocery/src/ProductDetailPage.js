@@ -17,20 +17,46 @@ export default function ProductDetailPage() {
   if (!product) return <p>Loading...</p>;
 
   return (
-    <div className="product-detail">
-      {product.image_url && (
-        <img src={product.image_url} alt={product.name} className="product-detail-image" />
-      )}
+    <div className="product-detail-container">
+      
+      {/* LEFT: IMAGE */}
+      <div className="product-detail-left">
+        {product.image_url && (
+          <img
+            src={product.image_url}
+            alt={product.name}
+            className="product-detail-image"
+          />
+        )}
+      </div>
 
-      <h1>{product.name}</h1>
-      <p>{product.description}</p>
-      <p><strong>Price:</strong> RM {product.price}</p>
-      <p><strong>Stock:</strong> {product.stock}</p>
-      <p><strong>Category:</strong> {product.category_name}</p>
+      {/* RIGHT: INFO */}
+      <div className="product-detail-right">
+        <h1 className="detail-title">{product.name}</h1>
 
-      <button onClick={() => addToCart(product.id)} className="add-btn">
-        Add to Cart
-      </button>
+        {/*<div className="ai-summary">
+          {product.ai_summary}
+        </div>*/}
+
+        <p className="detail-description">{product.description}</p>
+
+        <div className="price">
+          RM {product.price}
+        </div>
+
+        <div className="meta">
+          <span>Stock: {product.stock}</span>
+          <span>Category: {product.category_name}</span>
+        </div>
+
+        <button
+          onClick={() => addToCart(product.id)}
+          className="add-btn"
+        >
+          Add to Cart
+        </button>
+      </div>
+
     </div>
   );
 }
