@@ -21,7 +21,7 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 
 ## Screenshots
 ![Login Page](screenshots/Login.png)
-![Signup Page](screenshots/Signup.png)
+![Signup Page](screenshots/Signin.png)
 ![Recommendation](screenshots/Recommendation.png)
 ![Home Page](screenshots/Products.png)
 ![Search](screenshots/Search.png)
@@ -29,7 +29,7 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 ![Product Detail Page](screenshots/Detail.png)
 ![Cart Page](screenshots/Cart.png)
 ![Checkout Page](screenshots/Checkout.png)
-![PayPal](!screenshots/Paypal.png)
+![PayPal](!screenshots/PayPal.png)
 ![Create Wallet](!screenshots/CreateWallet.png)
 ![Top Up](!screenshots/TopUp.png)
 ![Pay TFT](!screenshots/PayTFT.png)
