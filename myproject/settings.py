@@ -63,11 +63,11 @@ MIDDLEWARE = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "https://grocery-ordering.up.railway.app",
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-
 ]
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
