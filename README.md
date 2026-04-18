@@ -31,7 +31,7 @@ A full-stack eCommerce web application that allows users to browse groceries, pl
 ![Checkout Page](screenshots/Checkout.png)
 ![PayPal](screenshots/PayPalPayment.png)
 ![Create Wallet](screenshots/WalletCreation.png)
-![Top Up](screenshots/Topup.png)
+![Top Up](screenshots/TopUp.png)
 ![Pay TFT](screenshots/CryptoPayment.png)
 ![My Orders](screenshots/MyOrders.png)
 ![Access Required](screenshots/RequiredAuth.png)
