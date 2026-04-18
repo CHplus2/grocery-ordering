@@ -1,4 +1,9 @@
-/* ========= GLOBAL BACKGROUND (IMPORTANT) ========= */
+/* ========= GLOBAL STYLES  ========= */
+* {
+  box-sizing: border-box;
+}
+
+/* ========= GLOBAL BACKGROUND  ========= */
 body {
   background: #0f172a; /* deep navy */
   color: #e5e7eb;

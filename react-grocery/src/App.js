@@ -1,27 +1,29 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
-import { User } from "lucide-react";
-import { useCart } from "./CartContext";
-import CartProvider from "./CartContext";
-import RequireAuth from "./RequireAuth";
-import GroceryLogin from "./GroceryLogin";
-import GrocerySignup from "./GrocerySignup";
-import DeleteProduct from "./DeleteProduct";
-import CheckoutPage from "./CheckoutPage";
-import PaymentPage from "./PaymentPage";
-import ProductsPage from "./ProductsPage";
-import ProductsDetailPage from "./ProductDetailPage";
-import CartPage from "./CartPage";
-import OrdersPage from "./OrdersPage";
-import AdminProductsPage from "./AdminProductsPage";
-import AdminOrdersPage from "./AdminOrdersPage";
-import AdminReportsPage from "./AdminReportsPage";
-import AdminCustomersPage from "./AdminCustomersPage";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import { User } from "lucide-react";
+import { useCart } from "./contexts/CartContext";
+import CartProvider from "./contexts/CartContext";
+import RequireAuth from "./hoc/RequireAuth";
+import GroceryLogin from "./components/LoginModal/GroceryLogin";
+import GrocerySignup from "./components/SignupModal/GrocerySignup";
+import DeleteProduct from "./components/DeleteProductModal/DeleteProduct";
+import ProductsPage from "./pages/customer/ProductsPage";
+import ProductsDetailPage from "./pages/customer/ProductDetailPage";
+import CartPage from "./pages/customer/CartPage";
+import OrdersPage from "./pages/customer/OrdersPage";
+import CheckoutPage from "./pages/customer/CheckoutPage";
+import PaymentPage from "./pages/customer/PaymentPage";
+import AdminProductsPage from "./pages/admin/AdminProductsPage";
+import AdminOrdersPage from "./pages/admin/AdminOrdersPage";
+import AdminReportsPage from "./pages/admin/AdminReportsPage";
+import AdminCustomersPage from "./pages/admin/AdminCustomersPage";
+import "./App.css";
 
 function AnimatedRoutes() {
   const location = useLocation();
+
+  const { isAdmin } = useCart();
 
   const page_motion = {
     initial: { opacity: 0, scale: 0.98, y: 10 },
@@ -38,10 +40,7 @@ function AnimatedRoutes() {
           element={
             <motion.div
               {...page_motion}
-            >
-              <RequireAuth message="Please log in to view products">
-                <ProductsPage/>
-              </RequireAuth>
+            > {isAdmin ? <Navigate to="/admin/products" replace />: <ProductsPage/>}
             </motion.div>
           } 
         />
@@ -51,9 +50,7 @@ function AnimatedRoutes() {
             <motion.div
               {...page_motion}
             >
-              <RequireAuth message="Please log in to view product details">
-                <ProductsDetailPage/>
-              </RequireAuth>
+              <ProductsDetailPage/>
             </motion.div>
           } 
         />
@@ -181,16 +178,18 @@ function AppContent() {
             <Link to="/" className="brand">
               TokenFresh
             </Link>
-            <Link to="/">Products</Link>
-            {isAuthenticated && <>
-              <Link to="/cart">Cart</Link>
-              <Link to="/orders">My Orders</Link>
-            </>}
-            {isAdmin && <>
+
+            {isAdmin ? <>
               <Link to="/admin/products">Admin Products</Link>
               <Link to="/admin/customers">Customers</Link>
               <Link to="/admin/orders">Orders</Link>
               <Link to="/admin/reports">Reports</Link>
+            </> : <>
+              <Link to="/">Products</Link>
+              {isAuthenticated && <>
+                <Link to="/cart">Cart</Link>
+                <Link to="/orders">My Orders</Link>
+              </>}
             </>}
           </div>
         

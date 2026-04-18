@@ -26,7 +26,6 @@ class Product(models.Model):
         return f"{self.name} ({self.stock} left)"
 
 
-
 # ============ WALLET ============
 class Wallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -38,6 +37,7 @@ class Wallet(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Wallet - Balance: {self.balance}"
+    
     
 class WalletTransaction(models.Model):
     TRANSACTION_TYPES = [
@@ -103,6 +103,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    shipping_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default="unpaid")
     created_at = models.DateTimeField(auto_now_add=True)

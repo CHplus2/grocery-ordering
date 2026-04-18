@@ -110,7 +110,7 @@ def handle_recommendation(candidates, top_category_ids, user_qty_by_product, glo
     items.sort(key=lambda x: (x["score"], global_qty.get(x["product_id"], 0)), reverse=True)
     return items
 
-def recommend_for_user(user, limit=20, exclude_bought=False):
+def recommend_for_user(user, limit=20, exclude_bought=True):
     top_category_ids, _ = get_user_top_categories(user)
     user_qty_by_product = get_user_product_counts(user)
     global_qty = get_global_product_popularity()

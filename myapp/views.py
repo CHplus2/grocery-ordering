@@ -219,7 +219,10 @@ def place_order(request):
 
         total += subtotal
 
+    shipping_fee = Decimal("5.00") if total < 50 else Decimal("0.00")
+    
     order.total_amount = total
+    order.shipping_fee = shipping_fee
     order.save()
 
     cart_items.delete()
@@ -371,7 +374,7 @@ def check_auth(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def recommend(request):
-    return Response(recommend_for_user(request.user))
+    return Response(recommend_for_user(user=request.user, exclude_bought=False))
 
 
 # ------------------------------------------
@@ -415,6 +418,7 @@ def product_sales_report(request):
     """
     sales = (
         OrderItem.objects
+        .filter(order__payment_status="paid")
         .values("product__id", "product_name")
         .annotate(
             total_quantity=Sum("quantity"),
