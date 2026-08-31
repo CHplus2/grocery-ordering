@@ -1,0 +1,378 @@
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { getCookie } from "../utils/cookieUtils";
+import axios from "axios";
+
+export const CartContext = createContext();
+
+export const useCart = () => {
+  const context = useContext(CartContext);
+
+  if (!context) {
+    throw new Error("useCart must be used within CartProvider");
+  }
+
+  return context;
+}
+
+export default function CartProvider({ children }) {
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [recommended, setRecommended] = useState([])
+  const [cart, setCart] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [adminOrders, setAdminOrders] = useState([]);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [showLogin, setShowLogin] = useState(null);
+  const [showSignup, setShowSignup] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [wallet, setWallet] = useState(null); 
+  const [walletLoading, setWalletLoading] = useState(true);
+  const [alert, setAlert] = useState({ message: "", type: "" });
+
+  const total = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const SHIPPING_FEE = total >= 50 ? 0 : 5;
+  const finalTotal = total + SHIPPING_FEE;
+  const MYR_TO_USD = 0.25;
+  const fallback_img = "https://placehold.co/400x200/111827/9ca3af?text=No+Image";
+
+  const checkAuth = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/check-auth/", { withCredentials: true })
+      setIsAuthenticated(res.data.authenticated);
+      setIsAdmin(res.data.is_admin); 
+    } catch (err) {
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+    }
+  }, []);
+
+  const fetchWallet = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/wallet/", { withCredentials: true });
+      setWallet(res.data);
+    } catch (err) {
+      if (err.response?.status === 404) {
+        setWallet(null);
+      } else {
+        setWallet(false);
+      } 
+    } finally {
+      setWalletLoading(false);
+    }
+  }, [])
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/categories/");
+      const data = res.data;
+
+      setCategories(Array.isArray(data) ? data : data.results || []);
+
+    } catch (err) {
+      console.error("Failed to fetch categories:", err)
+      setCategories([]);
+    }
+
+  }, []);
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/products/");
+      const data = res.data;
+
+      setProducts(Array.isArray(data) ? data : data.results || []);
+
+    } catch (err) {
+      console.error("Failed to fetch products:", err)
+      setProducts([]);
+    }
+  }, []);
+
+  const refreshCart = useCallback(async () => {
+    if (!isAuthenticated) {
+      setCart([]);
+      return;
+    }
+    try {
+      const res = await axios.get("/api/cart/", { withCredentials: true });
+      const data = res.data;
+
+      setCart(Array.isArray(data) ? data : data.results || []);
+
+    } catch (err) {
+      console.error("Failed to fetch cart:", err)
+      setCart([]);
+    }
+  }, []);
+
+  const fetchRecommendation = useCallback(async () => {
+    if (isAuthenticated) {
+      try {
+        const res = await axios.get("/api/recommendation");
+        const data = res.data;
+
+        setRecommended(Array.isArray(data) ? data : data.results || []);
+      } catch (err) {
+        console.log("Failed to fetch recommendation", err);
+        setRecommended([]);
+      }
+    }
+  }, [isAuthenticated])
+
+
+  useEffect(() => {
+    checkAuth();
+    fetchCategories();
+    fetchRecommendation();
+    fetchProducts();
+  }, [checkAuth, fetchRecommendation, fetchProducts, fetchCategories]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchWallet();
+    } 
+  }, [fetchWallet]);
+
+
+  const modalMotion = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 20 },
+    transition: { ease: [0.4, 0, 0.2, 1] }
+  }
+
+  const formatOrderNumber = (id) => {
+    return `ORD-${String(id).padStart(5, "0")}`;
+  }
+
+  const convertToUSD = (rm) => {
+    return (rm * MYR_TO_USD).toFixed(2);
+  }
+
+  const formatPrice = (value, currency="MYR") => {
+    const n = Number(value);
+    return new Intl.NumberFormat("en-MY", { 
+      style: "currency", 
+      currency, 
+    }).format(Number.isFinite(n) ? n : 0);
+  };
+
+  const createWallet = useCallback(async () => {
+    try {
+      const res = await axios.post("/api/wallet/create/", {}, { 
+        withCredentials: true, 
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+      })
+      setWallet(res.data);
+    } catch (err) {
+      setWallet(false);
+      setAlert({ message: "Failed to create wallet", type: "error"})
+    }
+  }, [])
+
+  const topupWallet = useCallback(async (amount) => {
+    try {
+      const res = await axios.post("/api/wallet/topup/", { amount }, { 
+        withCredentials: true, 
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+      })
+      setWallet(prev => ({...prev, "balance": res.data.balance}));
+    } catch (err) {
+      setWallet(false);
+      setAlert({ message: "Failed to top up wallet", type: "error"})
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/logout/", {}, {
+        withCredentials: true,
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+      });
+      setCart([]);
+      checkAuth();
+      setDropdownOpen(false);
+    } catch (err) {
+      setAlert({ message: "An error occurred while logging out", type: "error" });
+      console.error(err);
+    }
+  }
+
+  const deleteProduct = async (productId) => {
+    await fetch(`/api/admin/products/${productId}/`, {
+      method: "DELETE",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      credentials: "include",
+    });
+
+    setProductIdToDelete(null);
+    fetchProducts();
+
+    setAlert({ message: "Product deleted successfully", type: "success" });
+
+    refreshCart();
+  };
+
+  const addToCart = async (productId, quantity = 1) => {
+    if (isAuthenticated) {
+      try {
+        const res = await axios.post("/api/cart/", 
+          { product_id: productId, quantity },
+          { 
+            withCredentials: true,
+            headers: { "X-CSRFToken": getCookie("csrftoken") }
+          }
+        );
+
+        setAlert(prev => ({ message: "Item added to cart", type: "success" }));
+        refreshCart();
+
+      } catch (err) {
+        setAlert({ message: "Failed to add item to cart", type: "error" });
+        console.error("Cart error:", err);
+      }
+    } else{
+      setShowLogin(true);
+    } 
+  };
+
+  const removeFromCart = async (cartItemId) => {
+    try {
+      const res = await fetch(`/api/cart/${cartItemId}/`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: { "X-CSRFToken": getCookie("csrftoken") },
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        
+        setAlert({ message: "Failed to remove item from cart", type: "error" });
+        console.error("Remove from cart failed:", err);
+        return;
+      }
+
+      refreshCart();
+      setAlert(prev => 
+        ({ 
+          message: "Item removed from cart", 
+          type: "success" 
+        }));
+    } catch (err) {
+      setAlert({ message: "An error occurred while removing the item from the cart", type: "error" });
+      console.error("Cart remove error:", err);
+    }
+  };
+
+  const updateQuantity = async (cartItemId, quantity) => {
+    if (quantity <= 0) return removeFromCart(cartItemId);
+
+    try {
+      const res = await fetch(`/api/cart/${cartItemId}/`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        credentials: "include",
+        body: JSON.stringify({ quantity }),
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+
+        setAlert({ message: "Failed to update cart item quantity ", type: "error" });
+        console.error("Update cart failed:", err);
+        return;
+      }
+
+      refreshCart();
+    } catch (err) {
+      setAlert({ message: "An error occurred while updating the cart", type: "error" });
+      console.error("Cart update error:", err);
+    }
+  };
+
+  const placeOrder = useCallback(async (addressId, payment) => {
+    await fetch("/api/orders/place/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({ 
+        address_id: addressId, 
+        payment: payment
+      }),
+      credentials: "include",
+    });
+    refreshCart();
+  }, [refreshCart]);
+  
+  const fetchOrders = useCallback(async () => {
+    const res = await fetch("/api/orders/", {
+      headers: { "X-CSRFToken": getCookie("csrftoken") },
+      credentials: "include",
+    });
+    const data = await res.json();
+    
+    setOrders(Array.isArray(data) ? data : data.results || []);
+  }, []);
+
+  const fetchAdminOrders = useCallback(async () => {
+    const res = await fetch("/api/admin/orders/", {
+      headers: { "X-CSRFToken": getCookie("csrftoken") },
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    setAdminOrders(Array.isArray(data) ? data : data.results || []);
+  }, []);
+
+  return (
+    <CartContext.Provider
+      value={{
+        cart,
+        total,
+        finalTotal,
+        SHIPPING_FEE,
+        refreshCart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        modalMotion,
+        deleteProduct,
+        fetchCategories,
+        fetchProducts,
+        fetchOrders,
+        fetchAdminOrders,
+        placeOrder,
+        fallback_img,
+        formatOrderNumber,
+        convertToUSD,
+        formatPrice,
+        categories, setCategories,
+        products, setProducts,
+        orders, setOrders,
+        adminOrders, setAdminOrders,
+        recommended, setRecommended,
+        productIdToDelete, setProductIdToDelete,
+        checkAuth, handleLogout,
+        showLogin, setShowLogin,
+        showSignup, setShowSignup,
+        dropdownOpen, setDropdownOpen,
+        isAuthenticated, setIsAuthenticated,
+        isAdmin, setIsAdmin,
+        alert, setAlert,
+        wallet, walletLoading,
+        createWallet, topupWallet
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}

@@ -1,0 +1,146 @@
+/* =========================
+   ROOT (MATCH YOUR SYSTEM)
+========================= */
+:root {
+  --bg: #020617;
+  --card: rgba(17, 24, 39, 0.7);
+  --border: rgba(255,255,255,0.08);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+
+  --primary: #7c3aed;
+  --secondary: #22d3ee;
+  --danger: #ef4444;
+  --success: #22c55e;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.admin-customers-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 24px;
+
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+}
+
+/* =========================
+   TITLE
+========================= */
+.admin-customers-container h1 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+   TABLE WRAPPER (GLASS CARD)
+========================= */
+.admin-customers-container table {
+  width: 100%;
+  border-collapse: collapse;
+
+  background: var(--card);
+  backdrop-filter: blur(12px);
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* HEADER */
+.admin-customers-container thead {
+  background: rgba(255,255,255,0.02);
+}
+
+.admin-customers-container th {
+  text-align: left;
+  padding: 14px;
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ROWS */
+.admin-customers-container td {
+  padding: 14px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* HOVER */
+.admin-customers-container tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+/* =========================
+   STATUS BADGES
+========================= */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Active */
+.status-active {
+  background: rgba(34,197,94,0.15);
+  color: var(--success);
+  border: 1px solid rgba(34,197,94,0.3);
+}
+
+/* Inactive */
+.status-inactive {
+  background: rgba(239,68,68,0.15);
+  color: var(--danger);
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+/* Admin badge */
+.status-admin {
+  background: rgba(124,58,237,0.15);
+  color: var(--primary);
+  border: 1px solid rgba(124,58,237,0.3);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.admin-customers-container button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+
+  transition: all 0.25s ease;
+}
+
+/* Activate */
+.btn-activate {
+  background: rgba(34,197,94,0.15);
+  color: var(--success);
+}
+
+.btn-activate:hover {
+  background: rgba(34,197,94,0.3);
+}
+
+/* Deactivate */
+.btn-deactivate {
+  background: rgba(239,68,68,0.15);
+  color: var(--danger);
+}
+
+.btn-deactivate:hover {
+  background: rgba(239,68,68,0.3);
+}
