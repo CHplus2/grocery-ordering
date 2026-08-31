@@ -3,7 +3,16 @@ import { getCookie } from "../utils/cookieUtils";
 import axios from "axios";
 
 export const CartContext = createContext();
-export const useCart = () => useContext(CartContext);
+
+export const useCart = () => {
+  const context = useContext(CartContext);
+
+  if (!context) {
+    throw new Error("useCart must be used within CartProvider");
+  }
+
+  return context;
+}
 
 export default function CartProvider({ children }) {
   const [categories, setCategories] = useState([]);
@@ -54,12 +63,36 @@ export default function CartProvider({ children }) {
     }
   }, [])
 
-  const fetchCategories = useCallback(() => {
-    axios.get("/api/categories/").then((res) => setCategories(res.data));
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/categories/")
+      const data = res.data;
+
+      console.log("RAW categories response:", data);        // ← add this
+      console.log("Type:", typeof data, Array.isArray(data));
+
+      setCategories(Array.isArray(data) ? data : data.results || []);
+
+    } catch (err) {
+      console.error("Failed to fetch categories:", err)
+      setCategories([]);
+    }
+
   }, []);
 
-  const fetchProducts = useCallback(() => {
-    axios.get("/api/products/").then((res) => setProducts(res.data));
+  const fetchProducts = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/products/");
+      const data = res.data;
+
+      setProducts(Array.isArray(data) ? data : data.results || []);
+
+    } catch (err) {
+      console.error("Failed to fetch products:", err)
+      setProducts([]);
+    }
+
+    
   }, []);
 
   const refreshCart = useCallback(() => {
@@ -85,7 +118,7 @@ export default function CartProvider({ children }) {
       fetchWallet();
       axios.get("/api/recommendation/")
       .then((res) => { 
-        setRecommended(res.data)}); 
+        setRecommended(res.data.results)}); 
     } else if (isAuthenticated === false) {
       setRecommended([]);
     }

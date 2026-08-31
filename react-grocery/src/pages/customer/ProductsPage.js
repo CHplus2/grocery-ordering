@@ -6,15 +6,21 @@ import "./ProductsPage.css";
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const { addToCart, products, recommended, categories, fallback_img, formatPrice } = useCart();
+
+  const cartContext = useCart();
+  console.log("FULL CONTEXT:", cartContext);
+
+  const { addToCart, products, recommended, categories, fallback_img, formatPrice } = cartContext;
 
   const scrollRef = useRef(null);
 
-  const filteredProducts = products.filter((p) => {
-    const matchesName = p.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory ? p.category === Number(selectedCategory) : true;
-    return matchesName && matchesCategory;
-  });
+  const filteredProducts = Array.isArray(products) 
+    ? (products || []).filter((p) => {
+      const matchesName = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory ? p.category === Number(selectedCategory) : true;
+      return matchesName && matchesCategory;
+    })
+    : [];
 
   return (
     <div className="products-page">
@@ -89,7 +95,7 @@ export default function ProductsPage() {
           className="category-select"
         >
           <option value="">All Categories</option>
-          {categories.map((c) => (
+          {(Array.isArray(categories) ? categories : []).map((c) => (
             <option key={c.id} value={c.id}>{c.name}</option>
           ))}
         </select>

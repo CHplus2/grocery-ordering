@@ -1,0 +1,81 @@
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+from django.db.models import Sum, F
+from django.contrib.auth.models import User
+from ..models import Order, OrderItem
+from ..serializers import OrderSerializer, UserSerializer
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def admin_order_list(request):
+    orders = Order.objects.all().order_by("-created_at")
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["PATCH"])
+@permission_classes([IsAdminUser])
+def admin_order_detail(request, pk):
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response({"detail": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    new_status = request.data.get("status")
+    new_payment_status = request.data.get("payment_status")
+
+    if new_status:
+        order.status = new_status
+        order.save()
+
+    if new_payment_status:
+        order.payment_status = new_payment_status
+        order.save()
+
+    return Response({"detail": "Order updated", "order": OrderSerializer(order).data}, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def product_sales_report(request):
+    """
+    Returns total quantity sold and total revenue per product.
+    """
+    sales = (
+        OrderItem.objects
+        .filter(order__payment_status="paid")
+        .values("product__id", "product_name")
+        .annotate(
+            total_quantity=Sum("quantity"),
+            total_revenue=Sum(F("quantity") * F("unit_price"))
+        )
+        .order_by("-total_revenue")
+    )
+    return Response(sales, status=status.HTTP_200_OK)
+
+class AdminCustomerViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def admin_customers_list(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["PUT"])
+@permission_classes([IsAdminUser])
+def admin_customer_update(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserSerializer(user, data=request.data, partial=True)  # partial=True allows partial updates
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
